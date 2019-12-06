@@ -102,7 +102,6 @@ Arrays.stream(Arrays.copyOf(waveform, fftSize))
 /* 高 速 フ ー リ エ 変 換 を 行 う */
 final Complex[] spectrum = Le4MusicUtils.rfft(src);
 
-
 /* 対 数 振 幅 ス ペ ク ト ル を 求 め る */
 final double[] specLog =
 Arrays.stream(spectrum)

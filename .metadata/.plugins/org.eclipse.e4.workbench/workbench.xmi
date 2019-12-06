@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="ASCII"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_gjag0RGcEeqD5LaxO6n7BA" elementId="org.eclipse.e4.legacy.ide.application" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_gjag0hGcEeqD5LaxO6n7BA" bindingContexts="_gjag1BGcEeqD5LaxO6n7BA">
-  <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;workbench>&#xA;&lt;mruList>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrogramCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrogramCLI.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSpectrogramCLI.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrumCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrumCLI.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSpectrumCLI.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotWaveformCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotWaveformCLI.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotWaveformCLI.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSoundVolume.java&quot; tooltip=&quot;SoundGUI/src/PlotSoundVolume.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSoundVolume.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrogramSimple.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrogramSimple.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSpectrogramSimple.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotWaveformSimple.java&quot; tooltip=&quot;SoundGUI/src/PlotWaveformSimple.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotWaveformSimple.java&quot;/>&#xA;&lt;/file>&#xA;&lt;/mruList>&#xA;&lt;/workbench>"/>
+  <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;workbench>&#xA;&lt;mruList>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSoundPitch.java&quot; tooltip=&quot;SoundGUI/src/PlotSoundPitch.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSoundPitch.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.jdt.ui.ClassFileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.ClassFileEditor&quot; name=&quot;DelegatingMethodAccessorImpl.class&quot; tooltip=&quot;sun.reflect.DelegatingMethodAccessorImpl&quot;>&#xA;&lt;persistable org.eclipse.jdt.ui.ClassFileIdentifier=&quot;=SoundGUI/\/usr\/lib\/jvm\/java-8-oracle\/jre\/lib\/rt.jar&amp;lt;sun.reflect(DelegatingMethodAccessorImpl.class&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrogramCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrogramCLI.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSpectrogramCLI.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrumCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrumCLI.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSpectrumCLI.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotWaveformCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotWaveformCLI.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotWaveformCLI.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSoundVolume.java&quot; tooltip=&quot;SoundGUI/src/PlotSoundVolume.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSoundVolume.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrogramSimple.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrogramSimple.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotSpectrogramSimple.java&quot;/>&#xA;&lt;/file>&#xA;&lt;file factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotWaveformSimple.java&quot; tooltip=&quot;SoundGUI/src/PlotWaveformSimple.java&quot;>&#xA;&lt;persistable path=&quot;/SoundGUI/src/PlotWaveformSimple.java&quot;/>&#xA;&lt;/file>&#xA;&lt;/mruList>&#xA;&lt;/workbench>"/>
   <tags>activeSchemeId:org.eclipse.ui.defaultAcceleratorConfiguration</tags>
   <tags>ModelMigrationProcessor.001</tags>
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_gjag0hGcEeqD5LaxO6n7BA" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_hbMdYhGcEeqD5LaxO6n7BA" label="%trimmedwindow.label.eclipseSDK" x="465" y="183" width="1824" height="1528">
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_gjag0hGcEeqD5LaxO6n7BA" elementId="IDEWindow" contributorURI="platform:/plugin/org.eclipse.platform" selectedElement="_hbMdYhGcEeqD5LaxO6n7BA" label="%trimmedwindow.label.eclipseSDK" x="2027" y="24" width="1824" height="2184">
     <persistedState key="coolBarVisible" value="true"/>
     <persistedState key="perspectiveBarVisible" value="true"/>
     <persistedState key="isRestored" value="true"/>
@@ -169,9 +169,11 @@
           <tags>persp.showIn:org.eclipse.eclemma.ui.CoverageView</tags>
           <tags>persp.viewSC:org.eclipse.ant.ui.views.AntView</tags>
           <children xsi:type="basic:PartSashContainer" xmi:id="_pvkHUxGcEeqD5LaxO6n7BA" selectedElement="_UELVsBJcEeqAuftWed5siA" horizontal="true">
-            <children xsi:type="basic:PartSashContainer" xmi:id="_pvkHVBGcEeqD5LaxO6n7BA" containerData="2500" selectedElement="_pvkHVRGcEeqD5LaxO6n7BA">
-              <children xsi:type="basic:PartStack" xmi:id="_pvkHVRGcEeqD5LaxO6n7BA" elementId="left" containerData="6000" selectedElement="_pvkHVhGcEeqD5LaxO6n7BA">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_pvkHVBGcEeqD5LaxO6n7BA" visible="false" containerData="2500" selectedElement="_pvkHVRGcEeqD5LaxO6n7BA">
+              <children xsi:type="basic:PartStack" xmi:id="_pvkHVRGcEeqD5LaxO6n7BA" elementId="left" visible="false" containerData="6000" selectedElement="_pvkHVhGcEeqD5LaxO6n7BA">
                 <tags>org.eclipse.e4.primaryNavigationStack</tags>
+                <tags>Minimized</tags>
+                <tags>MinimizedByZoom</tags>
                 <children xsi:type="advanced:Placeholder" xmi:id="_pvkHVhGcEeqD5LaxO6n7BA" elementId="org.eclipse.jdt.ui.PackageExplorer" ref="_pvf14BGcEeqD5LaxO6n7BA"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_pvkHVxGcEeqD5LaxO6n7BA" elementId="org.eclipse.jdt.ui.TypeHierarchy" toBeRendered="false" ref="_hot8ARGcEeqD5LaxO6n7BA"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_pvkHWBGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.views.ResourceNavigator" toBeRendered="false" ref="_hot8ABGcEeqD5LaxO6n7BA"/>
@@ -183,9 +185,12 @@
               </children>
             </children>
             <children xsi:type="basic:PartSashContainer" xmi:id="_UELVsBJcEeqAuftWed5siA" containerData="7500" selectedElement="_pvkHZxGcEeqD5LaxO6n7BA" horizontal="true">
-              <children xsi:type="advanced:Placeholder" xmi:id="_pvkHXxGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.editorss" containerData="5000" ref="_holZIBGcEeqD5LaxO6n7BA"/>
+              <children xsi:type="advanced:Placeholder" xmi:id="_pvkHXxGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.editorss" containerData="5000" ref="_holZIBGcEeqD5LaxO6n7BA">
+                <tags>Maximized</tags>
+              </children>
               <children xsi:type="basic:PartStack" xmi:id="_pvkHZxGcEeqD5LaxO6n7BA" elementId="bottom" containerData="5000" selectedElement="_pvkHbBGcEeqD5LaxO6n7BA">
                 <tags>org.eclipse.e4.secondaryDataStack</tags>
+                <tags>MinimizedByZoom</tags>
                 <children xsi:type="advanced:Placeholder" xmi:id="_pvkHaRGcEeqD5LaxO6n7BA" elementId="org.eclipse.jdt.ui.JavadocView" ref="_pvgc8BGcEeqD5LaxO6n7BA"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_pvkHahGcEeqD5LaxO6n7BA" elementId="org.eclipse.jdt.ui.SourceView" ref="_pvhEABGcEeqD5LaxO6n7BA"/>
                 <children xsi:type="advanced:Placeholder" xmi:id="_pvkHaxGcEeqD5LaxO6n7BA" elementId="org.eclipse.search.ui.views.SearchView" toBeRendered="false" ref="_ho3F8hGcEeqD5LaxO6n7BA"/>
@@ -232,7 +237,7 @@
       <tags>categoryTag:Help</tags>
     </sharedElements>
     <sharedElements xsi:type="advanced:Area" xmi:id="_holZIBGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.editorss" selectedElement="_holZIRGcEeqD5LaxO6n7BA">
-      <children xsi:type="basic:PartStack" xmi:id="_holZIRGcEeqD5LaxO6n7BA" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_dJBAABJsEeqAuftWed5siA">
+      <children xsi:type="basic:PartStack" xmi:id="_holZIRGcEeqD5LaxO6n7BA" elementId="org.eclipse.e4.primaryDataStack" selectedElement="_PB3DYBfjEeqoXNRwWM08Gw">
         <tags>org.eclipse.e4.primaryDataStack</tags>
         <tags>EditorStack</tags>
         <tags>active</tags>
@@ -244,25 +249,23 @@
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_kfQEABI7EeqAuftWed5siA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PlotSpectrumSimple.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrumSimple.java&quot; partName=&quot;PlotSpectrumSimple.java&quot; title=&quot;PlotSpectrumSimple.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrumSimple.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSpectrumSimple.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;21&quot; selectionOffset=&quot;2072&quot; selectionTopPixel=&quot;414&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrumSimple.java&quot; partName=&quot;PlotSpectrumSimple.java&quot; title=&quot;PlotSpectrumSimple.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrumSimple.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSpectrumSimple.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1562&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_Csb-4BI9EeqAuftWed5siA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PlotSpectrogramSimple.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrogramSimple.java&quot; partName=&quot;PlotSpectrogramSimple.java&quot; title=&quot;PlotSpectrogramSimple.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrogramSimple.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSpectrogramSimple.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;3592&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrogramSimple.java&quot; partName=&quot;PlotSpectrogramSimple.java&quot; title=&quot;PlotSpectrogramSimple.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrogramSimple.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSpectrogramSimple.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;8&quot; selectionOffset=&quot;1872&quot; selectionTopPixel=&quot;364&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="advanced:Placeholder" xmi:id="_pvkHaBGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.views.ProblemView" toBeRendered="false" ref="_ho2e4RGcEeqD5LaxO6n7BA"/>
         <children xsi:type="basic:Part" xmi:id="_dJBAABJsEeqAuftWed5siA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PlotSoundVolume.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSoundVolume.java&quot; partName=&quot;PlotSoundVolume.java&quot; title=&quot;PlotSoundVolume.java&quot; tooltip=&quot;SoundGUI/src/PlotSoundVolume.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSoundVolume.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;1388&quot; selectionTopPixel=&quot;526&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSoundVolume.java&quot; partName=&quot;PlotSoundVolume.java&quot; title=&quot;PlotSoundVolume.java&quot; tooltip=&quot;SoundGUI/src/PlotSoundVolume.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSoundVolume.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;2982&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
-          <tags>active</tags>
-          <tags>activeOnClose</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_fp0zEBJwEeqAuftWed5siA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PlotWaveformCLI.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
           <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotWaveformCLI.java&quot; partName=&quot;PlotWaveformCLI.java&quot; title=&quot;PlotWaveformCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotWaveformCLI.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotWaveformCLI.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;4638&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
@@ -271,16 +274,24 @@
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_mMYhIBJwEeqAuftWed5siA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PlotSpectrumCLI.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrumCLI.java&quot; partName=&quot;PlotSpectrumCLI.java&quot; title=&quot;PlotSpectrumCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrumCLI.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSpectrumCLI.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;3&quot; selectionOffset=&quot;5210&quot; selectionTopPixel=&quot;693&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrumCLI.java&quot; partName=&quot;PlotSpectrumCLI.java&quot; title=&quot;PlotSpectrumCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrumCLI.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSpectrumCLI.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;6772&quot; selectionOffset=&quot;0&quot; selectionTopPixel=&quot;1466&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_s3YZgBJwEeqAuftWed5siA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PlotSpectrogramCLI.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrogramCLI.java&quot; partName=&quot;PlotSpectrogramCLI.java&quot; title=&quot;PlotSpectrogramCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrogramCLI.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSpectrogramCLI.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;5706&quot; selectionTopPixel=&quot;1869&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSpectrogramCLI.java&quot; partName=&quot;PlotSpectrogramCLI.java&quot; title=&quot;PlotSpectrogramCLI.java&quot; tooltip=&quot;SoundGUI/src/PlotSpectrogramCLI.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSpectrogramCLI.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;107&quot; selectionOffset=&quot;3938&quot; selectionTopPixel=&quot;1162&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
           <tags>removeOnHide</tags>
+        </children>
+        <children xsi:type="basic:Part" xmi:id="_PB3DYBfjEeqoXNRwWM08Gw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="PlotSoundPitch.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;PlotSoundPitch.java&quot; partName=&quot;PlotSoundPitch.java&quot; title=&quot;PlotSoundPitch.java&quot; tooltip=&quot;SoundGUI/src/PlotSoundPitch.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/SoundGUI/src/PlotSoundPitch.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;2435&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
+          <tags>Editor</tags>
+          <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
+          <tags>removeOnHide</tags>
+          <tags>active</tags>
+          <tags>activeOnClose</tags>
         </children>
       </children>
     </sharedElements>
@@ -489,7 +500,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_heJDsBGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_ZLTgABI6EeqAuftWed5siA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_gkEoIxGcEeqD5LaxO6n7BA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_OdApsBe-EeqoXNRwWM08Gw" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_gkEoIxGcEeqD5LaxO6n7BA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_heJDsRGcEeqD5LaxO6n7BA" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -522,7 +533,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_heJqwBGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_ZLVVMxI6EeqAuftWed5siA" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_gkEBERGcEeqD5LaxO6n7BA"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_OdCe4Re-EeqoXNRwWM08Gw" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_gkEBERGcEeqD5LaxO6n7BA"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_heJqwRGcEeqD5LaxO6n7BA" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -556,8 +567,8 @@
         <tags>Draggable</tags>
       </children>
     </trimBars>
-    <trimBars xmi:id="_hknfIBGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.trim.vertical1" toBeRendered="false" side="Left">
-      <children xsi:type="menu:ToolControl" xmi:id="_HOAIwBJBEeqAuftWed5siA" elementId="left(IDEWindow).(org.eclipse.jdt.ui.JavaPerspective)" toBeRendered="false" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
+    <trimBars xmi:id="_hknfIBGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.trim.vertical1" side="Left">
+      <children xsi:type="menu:ToolControl" xmi:id="_HOAIwBJBEeqAuftWed5siA" elementId="left(IDEWindow).(org.eclipse.jdt.ui.JavaPerspective)" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.TrimStack">
         <tags>TrimStack</tags>
         <tags>Draggable</tags>
       </children>
@@ -3192,7 +3203,7 @@
   <addons xmi:id="_gjag4xGcEeqD5LaxO6n7BA" elementId="MinMax Addon" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.MinMaxAddon"/>
   <addons xmi:id="_gjag5BGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.workbench.addon.0" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_gjicoBGcEeqD5LaxO6n7BA" elementId="SplitterAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon"/>
-  <addons xmi:id="_YUVbwRI6EeqAuftWed5siA" elementId="org.eclipse.ui.ide.addon.0" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
+  <addons xmi:id="_IYS0IKimEeS11vbz3f9ezw" elementId="org.eclipse.ui.ide.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
   <addons xmi:id="_dz0JgGOlEeSMMaPQU2nlzw" elementId="org.eclipse.ui.ide.application.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.ide.application/org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon"/>
   <categories xmi:id="_gj63IBGcEeqD5LaxO6n7BA" elementId="org.eclipse.ui.category.edit" name="Edit"/>
   <categories xmi:id="_gj63IRGcEeqD5LaxO6n7BA" elementId="org.eclipse.mylyn.wikitext.ui.editor.category" name="WikiText Markup Editing Commands" description="commands for editing lightweight markup"/>
