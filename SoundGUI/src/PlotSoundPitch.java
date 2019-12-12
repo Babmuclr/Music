@@ -1,5 +1,6 @@
 import java.io.File;
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.IntStream;
@@ -28,7 +29,7 @@ import java.io.IOException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public final class PlotSoundPitch extends Application {
-
+	
 @Override public final void start(final Stage primaryStage)
 throws IOException,
 UnsupportedAudioFileException {
@@ -55,6 +56,7 @@ stream.close();
 final int frameSize = (int)Math.round(frameDuration * sampleRate);
 final int fftSize = 1 << Le4MusicUtils.nextPow2(frameSize);
 final int fftSize2 = (fftSize >> 1) + 1;
+final double nyquist = sampleRate * 0.5;
 
 /* シ フ ト の サ ン プ ル 数 */
 final int shiftSize = (int)Math.round(shiftDuration * sampleRate);
@@ -72,12 +74,12 @@ Le4MusicUtils.sliding(waveform, window, shiftSize)
 /* 複 素 ス ペ ク ト ロ グ ラ ム を 対 数 振 幅 ス ペ ク ト ロ グ ラ ム に */
 final double[][] specLog =
 spectrogram.map(sp -> Arrays.stream(sp)
-.mapToDouble(c -> 2 * Math.log10(c.abs()))
+.mapToDouble(c -> Math.log10(c.abs()))
 .toArray())
 .toArray(n -> new double[n][]);
 
 /* 各スペクトラムをケプトラムに変換 */
-double[][] cepstrums = new double[specLog.length][specLog[0].length];
+double[][] cepstrums = new double[specLog.length][];
 for(int i = 0; i < specLog.length; i++) {
 	double[] s = Arrays.copyOfRange(specLog[i],0,specLog[i].length-1);
 	Complex[] cepstrum = Le4MusicUtils.fft(s);
@@ -86,25 +88,79 @@ for(int i = 0; i < specLog.length; i++) {
 			.toArray();
 }
 
-System.out.print(cepstrums.length);
+final double duration = frameDuration / (cepstrums[0].length - 1);
+
+double[] fundFreqs = new double[cepstrums.length];
+
+for(int i = 0; i < cepstrums.length; i++) {
+	double fundFreq = 50;
+	int ans = 0;
+	for (int j = 10; j < 200; j++) {
+		double k = Math.abs(cepstrums[i][j]);
+		if(fundFreq < k) {
+			fundFreq = k;
+			ans = j;
+		}
+	}
+	if (ans < 50 || 1600 < ans) {
+		fundFreqs[i] = 0;
+	}
+	else {
+		fundFreqs[i] = 1 / (ans * duration);
+	}
+}
+/*
+for(int i = 0; i<cepstrums[160].length;i++) {
+	System.out.print(i + "  "+ 1 / (i * duration) + "  " + cepstrums[200][i] +"  " + fundFreqs[200] +"\n");
+} 
+*/
+/* デ ー タ 系 列 を 作 成 */
+/*
 final ObservableList<XYChart.Data<Number, Number>> data =
-IntStream.range(1,cepstrums[0].length)
-.mapToObj(i -> new XYChart.Data<Number, Number>(i * frameDuration, cepstrums[4][i]))
+IntStream.range(0, cepstrums[0].length)
+.mapToObj(i -> new XYChart.Data<Number, Number>(i * duration, cepstrums[200][i]))
+.collect(Collectors.toCollection(FXCollections::observableArrayList));
+*/
+/* デ ー タ 系 列 を 作 成 */
+
+final ObservableList<XYChart.Data<Number, Number>> data =
+IntStream.range(0,fundFreqs.length)
+.mapToObj(i -> new XYChart.Data<Number, Number>(i* shiftDuration,fundFreqs[i]))
 .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
 /* デ ー タ 系 列 に 名 前 を つ け る */
-final XYChart.Series<Number, Number> series = new XYChart.Series<>("Spectrum", data);
+final XYChart.Series<Number, Number> series =
+new XYChart.Series<>("cepstrum", data);
 
-/* 軸 を 作 成 */
-final NumberAxis xAxis = new NumberAxis();
-xAxis.setLabel("Frequency (Hz)");
-final NumberAxis yAxis = new NumberAxis();
-yAxis.setLabel("Amplitude (dB)");
+/* X 軸 を 作 成 */
+final double freqLowerBound =(0.0);
+final double freqUpperBound = (nyquist);
+final NumberAxis xAxis = new NumberAxis(
+/* axisLabel = */ "Frequency (Hz)",
+/* lowerBound = */ freqLowerBound,
+/* upperBound = */ 10,
+/* tickUnit =  Le4MusicUtils.autoTickUnit(freqUpperBound - freqLowerBound)*/ 0.1
+);
+xAxis.setAnimated(false);
+
+/* Y 軸 を 作 成 */
+final double ampLowerBound =(Le4MusicUtils.spectrumAmplitudeLowerBound);
+
+final double ampUpperBound =(Le4MusicUtils.spectrumAmplitudeUpperBound);
+final NumberAxis yAxis = new NumberAxis(
+/* axisLabel = */ "Amplitude (dB)",
+/* lowerBound = */ -250,
+/* upperBound = */ 250,
+/* tickUnit = */ Le4MusicUtils.autoTickUnit(ampUpperBound - ampLowerBound)
+);
+yAxis.setAnimated(false);
 
 /* チ ャ ー ト を 作 成 */
-final LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
+final LineChart<Number, Number> chart =
+new LineChart<>(xAxis, yAxis);
 chart.setTitle("Spectrum");
 chart.setCreateSymbols(false);
+chart.setLegendVisible(false);
 chart.getData().add(series);
 
 /* グ ラ フ 描 画 */
