@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<qualifiedTypeNameHistroy/>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="jp.ac.kyoto_u.kuis.le4music.Le4MusicUtils"/>
+<fullyQualifiedTypeName name="com.sun.javafx.util.Utils"/>
+</qualifiedTypeNameHistroy>

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/SoundGUI/src/PlotSpecPitch.java"/>
+<listEntry value="/SoundGUI/src/DictAiueo.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="PlotSpecPitch"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="src/aiueo_split.wav"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="DictAiueo"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="src/a_study.wav&#10;src/i_study.wav&#10;src/u_study.wav&#10;src/e_study.wav&#10;src/o_study.wav&#10;src/aiueo_with.wav"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="SoundGUI"/>
 </launchConfiguration>

@@ -93,26 +93,26 @@ final double duration = frameDuration / (cepstrums[0].length - 1);
 double[] fundFreqs = new double[cepstrums.length];
 
 for(int i = 0; i < cepstrums.length; i++) {
-	double fundFreq = 0;
+	double fundFreq = 50;
 	int ans = 0;
-	for (int j = 10; j < cepstrums[i].length; j++) {
-		if(fundFreq < cepstrums[i][j]) {
-			fundFreq = cepstrums[i][j];
+	for (int j = 10; j < 200; j++) {
+		double k = Math.abs(cepstrums[i][j]);
+		if(fundFreq < k) {
+			fundFreq = k;
 			ans = j;
 		}
 	}
-	if (ans == 0 || ans == 10){
+	if (ans < 50 || 1600 < ans) {
 		fundFreqs[i] = 0;
 	}
 	else {
 		fundFreqs[i] = 1 / (ans * duration);
 	}
 }
-System.out.print(duration + "\n");
 /*
-for(int i = 0; i<fundFreqs.length;i++) {
-	System.out.print(fundFreqs[i] + "\n");
-}
+for(int i = 0; i<cepstrums[160].length;i++) {
+	System.out.print(i + "  "+ 1 / (i * duration) + "  " + cepstrums[200][i] +"  " + fundFreqs[200] +"\n");
+} 
 */
 /* デ ー タ 系 列 を 作 成 */
 /*
@@ -122,6 +122,7 @@ IntStream.range(0, cepstrums[0].length)
 .collect(Collectors.toCollection(FXCollections::observableArrayList));
 */
 /* デ ー タ 系 列 を 作 成 */
+
 final ObservableList<XYChart.Data<Number, Number>> data =
 IntStream.range(0,fundFreqs.length)
 .mapToObj(i -> new XYChart.Data<Number, Number>(i* shiftDuration,fundFreqs[i]))
@@ -138,7 +139,7 @@ final NumberAxis xAxis = new NumberAxis(
 /* axisLabel = */ "Frequency (Hz)",
 /* lowerBound = */ freqLowerBound,
 /* upperBound = */ 10,
-/* tickUnit = */ Le4MusicUtils.autoTickUnit(freqUpperBound - freqLowerBound)
+/* tickUnit =  Le4MusicUtils.autoTickUnit(freqUpperBound - freqLowerBound)*/ 0.1
 );
 xAxis.setAnimated(false);
 

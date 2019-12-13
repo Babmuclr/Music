@@ -88,6 +88,8 @@ for(int i = 0; i < specLog.length; i++) {
 			.toArray();
 }
 
+System.out.print(cepstrums.length);
+
 final double duration = frameDuration / (cepstrums[0].length - 1);
 
 double[] fundFreqs = new double[cepstrums.length];
