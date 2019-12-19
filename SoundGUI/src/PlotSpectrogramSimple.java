@@ -86,7 +86,7 @@ xAxis.setUpperBound(specLog.length * shiftDuration);
 final NumberAxis yAxis = new NumberAxis();
 yAxis.setLabel("Frequency (Hz)");
 yAxis.setLowerBound(0.0);
-yAxis.setUpperBound(sampleRate * 0.5);
+yAxis.setUpperBound(1000);
 
 /* c h チ ャ ー ト を 作 成 */
 final LineChartWithSpectrogram<Number, Number> chart =
@@ -109,5 +109,6 @@ System.out.print("frame size " + frameSize + "\n");
 System.out.print("sample rate " + sampleRate + "\n");
 System.out.print("shift duration " + shiftDuration + "\n");
 System.out.print("frame duration " + frameDuration + "\n");
+
 }
 }

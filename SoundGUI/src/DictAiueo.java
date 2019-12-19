@@ -135,7 +135,6 @@ spectrogram1.map(sp -> Arrays.stream(sp)
 /* 参 考 ： フ レ ー ム 数 と 各 フ レ ー ム 先 頭 位 置 の 時 刻 */
 final double[] times =
 IntStream.range(0, specLog1.length)
-
 .mapToDouble(i -> i * shiftDuration)
 .toArray();
 
@@ -144,6 +143,10 @@ final double[] freqs =
 IntStream.range(0, fftSize2)
 .mapToDouble(i -> i * sampleRate / fftSize)
 .toArray();
+
+for(int i = 0; i < fftSize2;i++) {
+	System.out.print(i + " " + freqs[i] + "\n");
+}
 
 final Stream<Complex[]> spectrogram2 =
 Le4MusicUtils.sliding(waveform, window, shiftSize)
@@ -169,9 +172,7 @@ for(int i = 0; i < specLog2.length; i++) {
 /* 各音叉の学習を行う */
 double[][] studyData = new double[10][cepstrums[0].length];
 for(int i=0;i<5;i++) {
-	File studyfile;
 	AudioInputStream studystream;
-	double[] studywaveform;
 	if(i==0) {
 		studystream = AudioSystem.getAudioInputStream(awavFile);
 	}
@@ -187,15 +188,18 @@ for(int i=0;i<5;i++) {
 	else{
 		studystream = AudioSystem.getAudioInputStream(owavFile);
 	}
-	studywaveform = Le4MusicUtils.readWaveformMonaural(studystream);
+	double[] studywaveform = Le4MusicUtils.readWaveformMonaural(studystream);
 	Stream<Complex[]> spectrogram3 = Le4MusicUtils.sliding(studywaveform, window, shiftSize).map(frame -> Le4MusicUtils.rfft(frame));
 	double[][] specLog3 = spectrogram3.map(sp -> Arrays.stream(sp).mapToDouble(c -> Math.log10(c.abs())).toArray()).toArray(n -> new double[n][]);
 	double[][] studycepstrums = new double[specLog3.length][];
+	
+	/* ケプストラムを作成 */
 	for(int j = 0; j < specLog3.length; j++) {
 		double[] s = Arrays.copyOfRange(specLog3[j],0,specLog3[j].length-1);
 		Complex[] cepstrum = Le4MusicUtils.fft(s);
 		studycepstrums[j] = Arrays.stream(cepstrum).mapToDouble(c -> c.getReal()).toArray();
 	}
+	
 	for(int j=0;j<400;j++){
 		double ans = 0;
 		for(int k=0;k<studycepstrums.length;k++){
@@ -237,6 +241,8 @@ for(int i = 0; i < cepstrums.length; i++) {
 	double fundFreq = 50;
 	int ans = 0;
 	for (int j = 10; j < 200; j++) {
+
+		
 		if(fundFreq < cepstrums[i][j]) {
 			fundFreq = cepstrums[i][j];
 			ans = j;
@@ -250,7 +256,7 @@ for(int i = 0; i < cepstrums.length; i++) {
 	}
 }
 
-
+/*　学習結果の適応　*/
 double[] dict = new double[cepstrums.length];
 for(int i = 0; i < cepstrums.length; i++) {
 	double ans_a = 0;
@@ -266,6 +272,9 @@ for(int i = 0; i < cepstrums.length; i++) {
 		ans_o += Math.log10(studyData[9][j]) + Math.pow(cepstrums[i][j]-studyData[8][j],2) / (2 * Math.pow(studyData[9][j],2));
 	}
 	int ans = 0;
+	
+	System.out.print(" ans_a " + ans_a +" ans_i " + ans_i +" ans_u " + ans_u +" ans_e " + ans_e +" ans_o " + ans_o + "\n");
+	
 	if(ans_a>ans_i && ans_a>ans_u && ans_a>ans_e && ans_a>ans_o) {
 		ans = 0;
 	}

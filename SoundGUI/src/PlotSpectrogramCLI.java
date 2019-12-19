@@ -129,6 +129,8 @@ IntStream.range(0, fftSize2)
 .mapToDouble(i -> i * sampleRate / fftSize)
 .toArray();
 
+System.out.print("frame duration " + fftSize + "\n");
+
 /* X 軸 を 作 成 */
 final double duration = (specLog.length - 1) * shiftDuration;
 final NumberAxis xAxis = new NumberAxis(
