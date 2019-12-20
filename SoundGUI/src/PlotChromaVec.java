@@ -207,59 +207,60 @@ int[] answer = new int[specLog1.length];
 
 for(int i=0;i<specLog1.length;i++) {
 double[] dict = new double[12];
-dict[0] = specLog1[i][17] + specLog1[i][33] + specLog1[i][67] + specLog1[i][134] + specLog1[i][268] + specLog1[i][536];
-dict[1] = specLog1[i][18] + specLog1[i][36] + specLog1[i][71] + specLog1[i][142] + specLog1[i][284] + specLog1[i][568];
-dict[2] = specLog1[i][19] + specLog1[i][38] + specLog1[i][75] + specLog1[i][150] + specLog1[i][301] + specLog1[i][601];
-dict[3] = specLog1[i][20] + specLog1[i][40] + specLog1[i][80] + specLog1[i][159] + specLog1[i][318] + specLog1[i][637];
-dict[4] = specLog1[i][21] + specLog1[i][42] + specLog1[i][84] + specLog1[i][169] + specLog1[i][338] + specLog1[i][675];
-dict[5] = specLog1[i][22] + specLog1[i][45] + specLog1[i][89] + specLog1[i][179] + specLog1[i][358] + specLog1[i][715];
-dict[6] = specLog1[i][24] + specLog1[i][47] + specLog1[i][95] + specLog1[i][189] + specLog1[i][379] + specLog1[i][758];
-dict[7] = specLog1[i][25] + specLog1[i][50] + specLog1[i][100] + specLog1[i][200] + specLog1[i][401] + specLog1[i][803];
-dict[8] = specLog1[i][27] + specLog1[i][53] + specLog1[i][106] + specLog1[i][212] + specLog1[i][425] + specLog1[i][850];
-dict[9] = specLog1[i][28] + specLog1[i][56] + specLog1[i][113] + specLog1[i][225] + specLog1[i][451] + specLog1[i][901];
-dict[10] = specLog1[i][30] + specLog1[i][60] + specLog1[i][119] + specLog1[i][239] + specLog1[i][477] + specLog1[i][955];
-dict[11] = specLog1[i][32] + specLog1[i][63] + specLog1[i][126] + specLog1[i][253] + specLog1[i][506] + specLog1[i][1011];
+dict[0] = specLog1[i][17] + specLog1[i][33] + specLog1[i][67] + specLog1[i][134] + specLog1[i][268] + specLog1[i][536] + specLog1[i][1072]; // C
+dict[1] = specLog1[i][18] + specLog1[i][36] + specLog1[i][71] + specLog1[i][142] + specLog1[i][284] + specLog1[i][568] + specLog1[i][1136]; // C#
+dict[2] = specLog1[i][19] + specLog1[i][38] + specLog1[i][75] + specLog1[i][150] + specLog1[i][301] + specLog1[i][601] + specLog1[i][1202]; // D
+dict[3] = specLog1[i][20] + specLog1[i][40] + specLog1[i][80] + specLog1[i][159] + specLog1[i][318] + specLog1[i][637] + specLog1[i][1274]; // D#
+dict[4] = specLog1[i][21] + specLog1[i][42] + specLog1[i][84] + specLog1[i][169] + specLog1[i][338] + specLog1[i][675] + specLog1[i][1350]; // E
+dict[5] = specLog1[i][22] + specLog1[i][45] + specLog1[i][89] + specLog1[i][179] + specLog1[i][358] + specLog1[i][715] + specLog1[i][1430]; // F
+dict[6] = specLog1[i][24] + specLog1[i][47] + specLog1[i][95] + specLog1[i][189] + specLog1[i][379] + specLog1[i][758] + specLog1[i][1516]; // F#
+dict[7] = specLog1[i][25] + specLog1[i][50] + specLog1[i][100] + specLog1[i][200] + specLog1[i][401] + specLog1[i][803] + specLog1[i][1806]; // G
+dict[8] = specLog1[i][27] + specLog1[i][53] + specLog1[i][106] + specLog1[i][212] + specLog1[i][425] + specLog1[i][850] + specLog1[i][1700]; // G#
+dict[9] = specLog1[i][28] + specLog1[i][56] + specLog1[i][113] + specLog1[i][225] + specLog1[i][451] + specLog1[i][901] + specLog1[i][1802]; // A
+dict[10] = specLog1[i][15] + specLog1[i][30] + specLog1[i][60] + specLog1[i][119] + specLog1[i][239] + specLog1[i][477] + specLog1[i][955]; // A#
+dict[11] = specLog1[i][16]+ specLog1[i][32] + specLog1[i][63] + specLog1[i][126] + specLog1[i][253] + specLog1[i][506] + specLog1[i][1011]; // B
 
 double[] chords = new double[24];
-chords[0] = dict[0] + 0.5 * dict[4] + 0.8 * dict[7];
-chords[2] = dict[1] + 0.5 * dict[5] + 0.8 * dict[8];
-chords[4] = dict[2] + 0.5 * dict[6] + 0.8 * dict[9];
-chords[6] = dict[3] + 0.5 * dict[7] + 0.8 * dict[10];
-chords[8] = dict[4] + 0.5 * dict[8] + 0.8 * dict[11];
-chords[10] = dict[5] + 0.5 * dict[9] + 0.8 * dict[0];
-chords[12] = dict[6] + 0.5 * dict[10] + 0.8 * dict[1];
-chords[14] = dict[7] + 0.5 * dict[11] + 0.8 * dict[2];
-chords[16] = dict[8] + 0.5 * dict[0] + 0.8 * dict[3];
-chords[18] = dict[9] + 0.5 * dict[1] + 0.8 * dict[4];
-chords[20] = dict[10] + 0.5 * dict[2] + 0.8 * dict[5];
-chords[22] = dict[11] + 0.5 * dict[3] + 0.8 * dict[6];
-chords[1] = dict[0] + 0.5 * dict[3] + 0.8 * dict[7];
-chords[3] = dict[1] + 0.5 * dict[4] + 0.8 * dict[8];
-chords[5] = dict[2] + 0.5 * dict[5] + 0.8 * dict[9];
-chords[7] = dict[3] + 0.5 * dict[6] + 0.8 * dict[10];
-chords[9] = dict[4] + 0.5 * dict[7] + 0.8 * dict[11];
-chords[11] = dict[5] + 0.5 * dict[8] + 0.8 * dict[0];
-chords[13] = dict[6] + 0.5 * dict[9] + 0.8 * dict[1];
-chords[15] = dict[7] + 0.5 * dict[10] + 0.8 * dict[2];
-chords[17] = dict[8] + 0.5 * dict[11] + 0.8 * dict[3];
-chords[19] = dict[9] + 0.5 * dict[0] + 0.8 * dict[4];
-chords[21] = dict[10] + 0.5 * dict[1] + 0.8 * dict[5];
-chords[23] = dict[11] + 0.5 * dict[2] + 0.8 * dict[6];
+chords[0] = dict[0] + 0.5 * dict[4] + 0.8 * dict[7]; // CMajor
+chords[1] = dict[0] + 0.5 * dict[3] + 0.8 * dict[7]; // CMinor
+chords[2] = dict[1] + 0.5 * dict[5] + 0.8 * dict[8]; // C#Major
+chords[3] = dict[1] + 0.5 * dict[4] + 0.8 * dict[8]; // C#Minor
+chords[4] = dict[2] + 0.5 * dict[6] + 0.8 * dict[9]; // DMinor
+chords[5] = dict[2] + 0.5 * dict[5] + 0.8 * dict[9]; // DMinor
+chords[6] = dict[3] + 0.5 * dict[7] + 0.8 * dict[10]; // D#Minor
+chords[7] = dict[3] + 0.5 * dict[6] + 0.8 * dict[10]; // D#Minor
+chords[8] = dict[4] + 0.5 * dict[8] + 0.8 * dict[11]; // EMinor
+chords[9] = dict[4] + 0.5 * dict[7] + 0.8 * dict[11]; // EMinor
+chords[10] = dict[5] + 0.5 * dict[9] + 0.8 * dict[0]; // FMinor
+chords[11] = dict[5] + 0.5 * dict[8] + 0.8 * dict[0]; // FMinor
+chords[12] = dict[6] + 0.5 * dict[10] + 0.8 * dict[1]; // F#Minor
+chords[13] = dict[6] + 0.5 * dict[9] + 0.8 * dict[1]; // F#Minor
+chords[14] = dict[7] + 0.5 * dict[11] + 0.8 * dict[2]; // GMinor
+chords[15] = dict[7] + 0.5 * dict[10] + 0.8 * dict[2]; // GMinor
+chords[16] = dict[8] + 0.5 * dict[0] + 0.8 * dict[3]; // G#Minor
+chords[17] = dict[8] + 0.5 * dict[11] + 0.8 * dict[3]; // G#Minor
+chords[18] = dict[9] + 0.5 * dict[1] + 0.8 * dict[4]; // AMinor
+chords[19] = dict[9] + 0.5 * dict[0] + 0.8 * dict[4]; // AMinor
+chords[20] = dict[10] + 0.5 * dict[2] + 0.8 * dict[5]; // A#Minor
+chords[21] = dict[10] + 0.5 * dict[1] + 0.8 * dict[5]; // A#Minor
+chords[22] = dict[11] + 0.5 * dict[3] + 0.8 * dict[6]; // BMinor
+chords[23] = dict[11] + 0.5 * dict[2] + 0.8 * dict[6]; // BMinor
+
 int max = 0;
 double max_val = chords[0];
 for(int j=0;j<24;j++) {
 	if(max_val < chords[j]) {
+		max_val = chords[j];
 		max = j;
 	}
+
 }
-
 answer[i] = max; 
-
 }
 
 final ObservableList<XYChart.Data<Number, Number>> data =
 IntStream.range(0,answer.length)
-.mapToObj(i -> new XYChart.Data<Number, Number>(i* shiftDuration,answer[i]*100))
+.mapToObj(i -> new XYChart.Data<Number, Number>(i*shiftDuration,answer[i]*100))
 .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
 final XYChart.Series<Number, Number> series =
