@@ -85,7 +85,7 @@ final double sampleRate = format.getSampleRate();
 
 stream.close();
 
-System.out.print(waveform.length);
+System.out.print(waveform.length + "\n");
 
 final double shiftDuration =
 Optional.ofNullable(cmd.getOptionValue("shift"))
@@ -94,7 +94,7 @@ Optional.ofNullable(cmd.getOptionValue("shift"))
 final int shiftSize = (int)Math.round(shiftDuration * sampleRate);
 final int frameSize = (int)Math.round(Le4MusicUtils.frameDuration * sampleRate);
 
-System.out.print(shiftSize);
+System.out.print(shiftSize + "\n");
 
 int[] zerocross = new int[shiftSize];
 for(int i = 0; i < shiftSize; i++) {

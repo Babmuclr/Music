@@ -169,6 +169,8 @@ for(int i = 0; i < specLog2.length; i++) {
 			.toArray();
 }
 
+int dicter = 13;
+
 /* 各音叉の学習を行う */
 double[][] studyData = new double[10][cepstrums[0].length];
 for(int i=0;i<5;i++) {
@@ -199,17 +201,18 @@ for(int i=0;i<5;i++) {
 		Complex[] cepstrum = Le4MusicUtils.fft(s);
 		studycepstrums[j] = Arrays.stream(cepstrum).mapToDouble(c -> c.getReal()).toArray();
 	}
-	
-	for(int j=0;j<400;j++){
+	/* μを求める */
+	for(int j=0;j<studycepstrums.length;j++){
 		double ans = 0;
-		for(int k=0;k<studycepstrums.length;k++){
+		for(int k=0;k<dicter;k++){
 			ans += studycepstrums[k][j];
 		}
 		studyData[i*2][j] = ans / studycepstrums.length;
 	}
-	for(int j=0;j<400;j++){
+	/* σを求める */
+	for(int j=0;j<studycepstrums.length;j++){
 		double ans = 0;
-		for(int k=0;k<studycepstrums.length;k++){
+		for(int k=0;k<dicter;k++){
 			ans += Math.pow((studycepstrums[k][j]-studyData[i*2][j]),2);
 		}
 		studyData[i*2+1][j] = ans / studycepstrums.length;
@@ -264,7 +267,7 @@ for(int i = 0; i < cepstrums.length; i++) {
 	double ans_u = 0;
 	double ans_e = 0;
 	double ans_o = 0;
-	for(int j = 0; j < 400; j++) {
+	for(int j = 0; j < dicter; j++) {
 		ans_a += Math.log10(studyData[1][j]) + Math.pow(cepstrums[i][j]-studyData[0][j],2) / (2 * Math.pow(studyData[1][j],2));
 		ans_i += Math.log10(studyData[3][j]) + Math.pow(cepstrums[i][j]-studyData[2][j],2) / (2 * Math.pow(studyData[3][j],2));
 		ans_u += Math.log10(studyData[5][j]) + Math.pow(cepstrums[i][j]-studyData[4][j],2) / (2 * Math.pow(studyData[5][j],2));
@@ -273,22 +276,24 @@ for(int i = 0; i < cepstrums.length; i++) {
 	}
 	int ans = 0;
 	
-	System.out.print(" ans_a " + ans_a +" ans_i " + ans_i +" ans_u " + ans_u +" ans_e " + ans_e +" ans_o " + ans_o + "\n");
-	
-	if(ans_a>ans_i && ans_a>ans_u && ans_a>ans_e && ans_a>ans_o) {
+	System.out.print( Math.round(i * shiftDuration) + "  " + " ans_a " + ans_a +" ans_i " + ans_i +" ans_u " + ans_u +" ans_e " + ans_e +" ans_o " + ans_o + "\n");
+	if(zerocross[i] == 0) {
 		ans = 0;
 	}
-	else if(ans_i>ans_a && ans_i>ans_u && ans_i>ans_e && ans_i>ans_o) {
-		ans = 10;
+	else if(ans_a>ans_i && ans_a>ans_u && ans_a>ans_e && ans_a>ans_o) {
+		ans = 100;
 	}
-	else if(ans_u>ans_a && ans_u>ans_i && ans_u>ans_u && ans_u>ans_o) {
-		ans = 20;
+	else if(ans_i>ans_a && ans_i>ans_u && ans_i>ans_e && ans_i>ans_o) {
+		ans = 200;
+	}
+	else if(ans_u>ans_a && ans_u>ans_i && ans_u>ans_e && ans_u>ans_o) {
+		ans = 300;
 	}
 	else if(ans_e>ans_a && ans_e>ans_i && ans_e>ans_u && ans_e>ans_o) {
-		ans = 30;
+		ans = 400;
 	}
 	else if(ans_o>ans_a && ans_o>ans_i && ans_o>ans_u && ans_o>ans_e) {
-		ans = 40;
+		ans = 500;
 	}
 	dict[i] = ans;
 }
@@ -316,7 +321,7 @@ final NumberAxis yAxis = new NumberAxis(
 /* axisLabel = */ "Frequency (Hz)",
 /* lowerBound = */ 0.0,
 /* upperBound = */ 500,
-/* tickUnit = */ 20
+/* tickUnit = */ 100
 );
 yAxis.setAnimated(false);
 
