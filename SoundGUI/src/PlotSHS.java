@@ -160,34 +160,39 @@ for(int i = 0; i < specLog2.length; i++) {
 			.toArray();
 }
 
-double[] frequencies = new double[84];
-frequencies[0] = 55.0;
-frequencies[1] = 58.3;
-frequencies[2] = 61.7;
-frequencies[3] = 65.4;
-frequencies[4] = 69.3;
-frequencies[5] = 73.4;
-frequencies[6] = 77.8;
-frequencies[7] = 82.4;
-frequencies[8] = 87.3;
-frequencies[9] = 92.5;
-frequencies[10] = 98.0;
-frequencies[11] = 103.8;
-for(int i=1;i<7;i++) {
+/* 33番目から84番目までのノードの周波数の列 */
+double[] frequencies = new double[49];
+frequencies[0] = 65.4;
+frequencies[1] = 69.3;
+frequencies[2] = 73.4;
+frequencies[3] = 77.8;
+frequencies[4] = 82.4;
+frequencies[5] = 87.3;
+frequencies[6] = 92.5;
+frequencies[7] = 98.0;
+frequencies[8] = 103.8;
+frequencies[9] = 110.0;
+frequencies[10] = 116.5;
+frequencies[11] = 123.4;
+frequencies[48] = 1046.5;
+for(int i=1;i<4;i++) {
 	for(int j=0;j<12;j++) {
 		frequencies[12*i+j] = frequencies[12*(i-1)+j]*2;
 	}
 }
 
-int nodenums[] = new int[84];
+/* 33番目から117番目までのノードの周波数の列 */
+int nodenums[] = new int[49];
 int p = 0, q = 0;
-while(q < 84 && p < 2049) {
+while(q < 49 && p < 400) {
 	if(freqs[p] > frequencies[q]) {
 		nodenums[q] = p;
 		q++;
+		p++;
 	}
 	p++;
 }
+
 /*
 /* ゼロ交差数を求める */
 /*
@@ -288,39 +293,48 @@ answer[i] = max;
 }
 */
 double[] basicfqs = new double[specLog1.length];
+
 for(int k = 0;k< specLog1.length;k++) {
+	
 /* SSHを使って目的の基本周波数を推定する */
 /* 候補を36から60にする */
-double[] pitches = new double[25];
-for(int i=36;i<=60;i++) {
-	double f = 440 * Math.pow(2, (i-69)/12);
-	double ans = 0;
+	
+double[] candidates = new double[25];
+for(int i=0;i<=24;i++) {
+	double f = frequencies[i];
+	double each_value = 0;
 	int r=1;
-	while(r<5) {
+	while(r<=3) {
 		double fp = f * r;
-		for(int j=0;j<84;j++) {
-			if(frequencies[j] > fp) {
-				ans += specLog1[k][nodenums[j]] / Math.pow(2,r); 
-			r++;
+		int first_num = 0;
+		for(int j=0;j<49;j++) {
+			if(frequencies[j] >= fp) { 
+				first_num = j;
+				break;
 			}
 		}
+		each_value += specLog1[k][nodenums[first_num]] / r;
+		r++;
 	}
-	pitches[i-36] = ans;
+	candidates[i] = each_value;
+	System.out.print( i + " "+ each_value + " ");
 }
-
+System.out.print("\n");
 int ans = 0;
 double ans_val = 0;
 for(int i=0;i<25;i++) {
-	if (ans_val < pitches[i]) {
+	if (ans_val <= candidates[i]) {
 		ans = i;
-		ans_val = pitches[i];
+		ans_val = candidates[i];
 	}
 }
-basicfqs[k] = frequencies[ans+3];
+System.out.print(ans+"	");
+basicfqs[k] = frequencies[ans];
+System.out.print(basicfqs[k]+"\n");
 }
 
 final ObservableList<XYChart.Data<Number, Number>> data =
-IntStream.range(0,nodenums.length)
+IntStream.range(0,specLog1.length)
 .mapToObj(i -> new XYChart.Data<Number, Number>(i*shiftDuration,basicfqs[i]))
 .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
@@ -341,8 +355,8 @@ xAxis.setAnimated(false);
 final NumberAxis yAxis = new NumberAxis(
 /* axisLabel = */ "Frequency (Hz)",
 /* lowerBound = */ 0.0,
-/* upperBound = */ 2400,
-/* tickUnit = */ 20
+/* upperBound = */ 270,
+/* tickUnit = */ 10
 );
 yAxis.setAnimated(false);
 

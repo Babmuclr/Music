@@ -1,4 +1,4 @@
-Thu Dec 26 13:04:32 JST 2019
+Fri Jan 10 15:33:25 JST 2020
 ERROR org.eclipse.rse.core  Unexpected Exception
 java.net.UnknownHostException: ws46: ws46: 名前またはサービスが不明です
 	at java.net.InetAddress.getLocalHost(InetAddress.java:1505)

@@ -1,6 +1,9 @@
 import java.lang.invoke.MethodHandles;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.Observable;
 import java.util.Optional;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
@@ -12,16 +15,26 @@ import javax.imageio.ImageIO;
 
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.geometry.Pos;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
@@ -147,11 +160,11 @@ IntStream.range(0, fftSize2)
 .mapToDouble(i -> i * sampleRate / fftSize)
 .toArray();
 
-for(int i = 0; i < fftSize2;i++) {
-	System.out.print(i + " " + freqs[i] + "\n");
-}
-
 final Stream<Complex[]> spectrogram2 =
+Le4MusicUtils.sliding(waveform, window, shiftSize)
+.map(frame -> Le4MusicUtils.rfft(frame));
+
+final Stream<Complex[]> spectrogram4 =
 Le4MusicUtils.sliding(waveform, window, shiftSize)
 .map(frame -> Le4MusicUtils.rfft(frame));
 
@@ -170,6 +183,30 @@ for(int i = 0; i < specLog2.length; i++) {
 	cepstrums[i] = Arrays.stream(cepstrum)
 			.mapToDouble(c -> c.getReal())
 			.toArray();
+}
+
+/* 音量を求める */
+final double[][] appLog =
+spectrogram4.map(sp -> Arrays.stream(sp)
+.mapToDouble(c -> c.abs())
+.toArray())
+.toArray(n -> new double[n][]);
+
+double[] app = new double[appLog.length];
+
+for(int i=0;i<appLog.length;i++) {
+	for(int j=0;j<appLog.length;j++) {
+		app[i] += Math.pow(appLog[i][j],2);
+	}
+	app[i] /= appLog.length;
+	app[i] = Math.sqrt(app[i]);
+	app[i] /= 2 * 0.00001;
+	if (20 * Math.log10(app[i])<0){
+		app[i] = 0;
+	}
+	else {
+		app[i] = 20 * Math.log10(app[i]);
+	}
 }
 
 int dicter = 13;
@@ -240,6 +277,93 @@ for(int i = 0; i < shiftSize; i++) {
 	}
 }
 
+/* 33番目から84番目までのノードの周波数の列 */
+double[] frequencies = new double[49];
+frequencies[0] = 65.4;
+frequencies[1] = 69.3;
+frequencies[2] = 73.4;
+frequencies[3] = 77.8;
+frequencies[4] = 82.4;
+frequencies[5] = 87.3;
+frequencies[6] = 92.5;
+frequencies[7] = 98.0;
+frequencies[8] = 103.8;
+frequencies[9] = 110.0;
+frequencies[10] = 116.5;
+frequencies[11] = 123.4;
+frequencies[48] = 1046.5;
+for(int i=1;i<4;i++) {
+	for(int j=0;j<12;j++) {
+		frequencies[12*i+j] = frequencies[12*(i-1)+j]*2;
+	}
+}
+
+/* 33番目から117番目までのノードの周波数の列 */
+int nodenums[] = new int[49];
+int p = 0, q = 0;
+while(q < 49 && p < 400) {
+	if(freqs[p] > frequencies[q]) {
+		nodenums[q] = p;
+		q++;
+		p++;
+	}
+	p++;
+}
+
+int[] basicfqs = new int[specLog1.length];
+
+for(int k = 0;k< specLog1.length;k++) {
+	
+/* SSHを使って目的の基本周波数を推定する */
+/* 候補を36から60にする */
+double[] candidates = new double[25];
+for(int i=0;i<=24;i++) {
+	double f = frequencies[i];
+	double each_value = 0;
+	int r=1;
+	while(r<=3) {
+		double fp = f * r;
+		int first_num = 0;
+		for(int j=0;j<49;j++) {
+			if(frequencies[j] >= fp) { 
+				first_num = j;
+				break;
+			}
+		}
+		each_value += appLog[k][nodenums[first_num]] / r;
+		r++;
+	}
+	candidates[i] = each_value;
+}
+int ans = 0;
+double ans_val = 0;
+for(int i=0;i<25;i++) {
+	if (ans_val <= candidates[i]) {
+		ans = i;
+		ans_val = candidates[i];
+	}
+}
+if(zerocross[k]==0) {
+	basicfqs[k] = 49;
+}
+else {
+	basicfqs[k] = ans;
+}
+}
+
+/* basicfqsは音声のノード番号が格納されている
+ * ノード番号とC2などの音階とを対応させて出力 */
+String[] Pitches = new String[cepstrums.length];
+String[] PitchSamples = {
+		"C2","C#2","D2","D#2","E2","F2","F#2","G2","G#2","A2","A#2","B2",
+		"C3","C#3","D3","D#3","E3","F3","F#3","G3","G#3","A3","A#3","B3",
+		"C4","C#4","D4","D#4","E4","F4","F#4","G4","G#4","A4","A#4","B4",
+		"C5","C#5","D5","D#5","E5","F5","F#5","G5","G#5","A5","A#5","B5",
+		"C6","No Signal"};
+for(int i = 0;i < basicfqs.length;i++) {
+	Pitches[i] = PitchSamples[basicfqs[i]];
+}
+
 /* 基本周波数を求める */
 double[] fundFreqs = new double[cepstrums.length];
 
@@ -264,6 +388,7 @@ for(int i = 0; i < cepstrums.length; i++) {
 
 /*　学習結果の適応　*/
 double[] dict = new double[cepstrums.length];
+String[] dicters = new String[cepstrums.length];
 for(int i = 0; i < cepstrums.length; i++) {
 	double ans_a = 0;
 	double ans_i = 0;
@@ -278,80 +403,166 @@ for(int i = 0; i < cepstrums.length; i++) {
 		ans_o += Math.log10(studyData[9][j]) + Math.pow(cepstrums[i][j]-studyData[8][j],2) / (2 * Math.pow(studyData[9][j],2));
 	}
 	int ans = 0;
+	String str = "";
 	
-	System.out.print( Math.round(i * shiftDuration) + "  " + " ans_a " + ans_a +" ans_i " + ans_i +" ans_u " + ans_u +" ans_e " + ans_e +" ans_o " + ans_o + "\n");
 	if(zerocross[i] == 0) {
 		ans = 0;
+		str = "No Signal";
 	}
-	else if(ans_a>ans_i && ans_a>ans_u && ans_a>ans_e && ans_a>ans_o) {
+	else if(ans_a>=ans_i && ans_a>=ans_u && ans_a>=ans_e && ans_a>=ans_o) {
 		ans = 100;
+		str = "あ";
 	}
-	else if(ans_i>ans_a && ans_i>ans_u && ans_i>ans_e && ans_i>ans_o) {
+	else if(ans_i>=ans_a && ans_i>=ans_u && ans_i>=ans_e && ans_i>=ans_o) {
 		ans = 200;
+		str = "い";
 	}
-	else if(ans_u>ans_a && ans_u>ans_i && ans_u>ans_e && ans_u>ans_o) {
+	else if(ans_u>=ans_a && ans_u>=ans_i && ans_u>=ans_e && ans_u>=ans_o) {
 		ans = 300;
+		str = "う";
 	}
-	else if(ans_e>ans_a && ans_e>ans_i && ans_e>ans_u && ans_e>ans_o) {
+	else if(ans_e>=ans_a && ans_e>=ans_i && ans_e>=ans_u && ans_e>=ans_o) {
 		ans = 400;
+		str = "え";
 	}
-	else if(ans_o>ans_a && ans_o>ans_i && ans_o>ans_u && ans_o>ans_e) {
+	else if(ans_o>=ans_a && ans_o>=ans_i && ans_o>=ans_u && ans_o>=ans_e) {
 		ans = 500;
+		str = "お";
 	}
 	dict[i] = ans;
+	dicters[i] = str;
 }
 
-final ObservableList<XYChart.Data<Number, Number>> data =
+final double duration = (specLog1.length - 1) * shiftDuration;
+
+/* スペクトログラムをchart1として扱う */
+final ObservableList<XYChart.Data<Number, Number>> data1 =
 IntStream.range(0,dict.length)
-.mapToObj(i -> new XYChart.Data<Number, Number>(i* shiftDuration,dict[i]))
+.mapToObj(i -> new XYChart.Data<Number, Number>(i* shiftDuration,fundFreqs[i]))
 .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
-final XYChart.Series<Number, Number> series =
-new XYChart.Series<>("cepstrum", data);
+final XYChart.Series<Number, Number> series1 =
+new XYChart.Series<>("Fund Frequency", data1);
 
 /* X 軸 を 作 成 */
-final double duration = (specLog1.length - 1) * shiftDuration;
-final NumberAxis xAxis = new NumberAxis(
+final NumberAxis xAxis1 = new NumberAxis(
 /* axisLabel = */ "Time (seconds)",
 /* lowerBound = */ 0.0,
 /* upperBound = */ duration,
-/* tickUnit = */ 0.5
+/* tickUnit = */ Le4MusicUtils.autoTickUnit(nyquist)
 );
-xAxis.setAnimated(false);
+xAxis1.setAnimated(false);
 
 /* Y 軸 を 作 成 */
-final NumberAxis yAxis = new NumberAxis(
+final NumberAxis yAxis1 = new NumberAxis(
 /* axisLabel = */ "Frequency (Hz)",
 /* lowerBound = */ 0.0,
-/* upperBound = */ 500,
-/* tickUnit = */ 100
+/* upperBound = */ 5000,
+/* tickUnit = */ Le4MusicUtils.autoTickUnit(nyquist)
 );
-yAxis.setAnimated(false);
+yAxis1.setAnimated(false);
 
 /* チ ャ ー ト を 作 成 */
-final LineChartWithMarker<Number, Number> chart =
-new LineChartWithMarker<>(xAxis, yAxis);
-chart.addVerticalValueMarker(new XYChart.Data<>(2,500));
+final LineChartWithMarker<Number, Number> chart1 =
+new LineChartWithMarker<>(xAxis1, yAxis1);
+chart1.addVerticalValueMarker(new XYChart.Data<>(0,1000));
 
-chart.getData().add(series);
-chart.setParameters(specLog1.length, fftSize2, nyquist);
-chart.setTitle("Spectrogram");
-Arrays.stream(specLog1).forEach(chart::addSpecLog);
-chart.setCreateSymbols(true);
-chart.setLegendVisible(false);
+chart1.setParameters(specLog1.length, fftSize2, nyquist);
+chart1.setTitle("Spectrogram");
+Arrays.stream(specLog1).forEach(chart1::addSpecLog);
+chart1.setCreateSymbols(true);
+chart1.setLegendVisible(false);
 
-/* グ ラ フ 描 画 */
-final Scene scene = new Scene(chart, 800, 600);
+
+/* 音量と基本周波数を折れ線グラフにして出力
+ * スペクトログラムよりも少し小さめに表示する
+ * 余った部分でスライダーで表している部分の具体的な値を表示 */
+
+final ObservableList<XYChart.Data<Number, Number>> data2 =
+IntStream.range(0, app.length)
+.mapToObj(i -> new XYChart.Data<Number, Number>(i * shiftDuration, app[i]))
+.collect(Collectors.toCollection(FXCollections::observableArrayList));
+
+/* デ ー タ 系 列 に 名 前 を つ け る */
+final XYChart.Series<Number, Number> series2 = new XYChart.Series<>("Volume", data2);
+
+/* X 軸 を 作 成 */
+final NumberAxis xAxis2 = new NumberAxis(
+/* axisLabel = */ "Time (seconds)",
+/* lowerBound = */ 0.0,
+/* upperBound = */ duration,
+/* tickUnit = */ Le4MusicUtils.autoTickUnit(nyquist)
+);
+xAxis2.setAnimated(false);
+
+/* Y 軸 を 作 成 */
+final NumberAxis yAxis2 = new NumberAxis(
+/* axisLabel = */ "Volume (db) & Frequency (Hz)",
+/* lowerBound = */ 0,
+/* upperBound = */ 250,
+/* tickUnit = */ Le4MusicUtils.autoTickUnit(nyquist)
+);
+yAxis2.setAnimated(false);
+
+/* チ ャ ー ト を 作 成 */
+final LineChartWithMarker<Number, Number> chart2 = new LineChartWithMarker<>(xAxis2, yAxis2);
+chart2.addVerticalValueMarker(new XYChart.Data<>(0,1000));
+
+chart2.setTitle("Fund Frequency & Volume");
+chart2.setCreateSymbols(false);
+chart2.getData().add(series2);
+chart2.getData().add(series1);
 
 /*  スライダーの作成　*/
-Slider slider = new Slider(0, dict.length * shiftDuration , shiftDuration);
+Slider slider = new Slider(0.00, dict.length * shiftDuration , shiftDuration);
 slider.setShowTickMarks(true);
 slider.setShowTickLabels(true);
 slider.setMajorTickUnit(0.25f);
 slider.setBlockIncrement(0.1f);
 
+/* 各時間における具体的な値を表示する箱を作成 */
+VBox vbox = new VBox();
+vbox.setAlignment(Pos.CENTER);
+Label label1 = new Label( "Volume	:   " + 0 + "	db"  );
+Label label2 = new Label( "Vowel Identification	:   " + "なし" );
+Label label3 = new Label( "Fundamental Frequency	:   " + 0 + "	Hz" );
+Label label4 = new Label( "Time	:   " + 0 + "	s" );
+Label label5 = new Label( "Pitch	:   " + "なし" );
+label1.setFont(new Font("Arial", 20));
+label2.setFont(new Font("Arial", 20));
+label3.setFont(new Font("Arial", 20));
+label4.setFont(new Font("Arial", 20));
+label5.setFont(new Font("Arial", 20));
+label1.setPrefSize(500,100);
+label2.setPrefSize(500,100);
+label3.setPrefSize(500,100);
+label4.setPrefSize(500,100);
+label5.setPrefSize(500,100);
+vbox.getChildren().addAll(label1,label2,label3,label4,label5);
+
+/* スライダーが動いた時に値やグラフ内の直線を移動させる */
+slider.valueProperty().addListener((ObservableValue<? extends Number> observ, Number oldVal, Number newVal)->{
+double newnum = newVal.doubleValue();
+double oldnum = oldVal.doubleValue();
+int num = (int) Math.round(newnum * 399  / shiftDuration / 400);
+double width1 = chart1.getChartWidth();
+double width2 = chart2.getChartWidth();
+chart1.moveVerticalValueMarker(width1/399 * num);
+chart2.moveVerticalValueMarker(width2/399 * num);
+label1.setText("Volume	:   " +String.format("%.2f" ,Math.abs(app[num])) + "	db");
+label2.setText("Vowel Identification	:   " + dicters[num]);
+label3.setText("Fundamental Frequency	:   " + String.format("%.2f" ,fundFreqs[num]) + "	Hz");
+label4.setText("Time	:   " + String.format("%.2f" ,shiftDuration * num) + "	s");
+label5.setText("Pitch	:   " + Pitches[num]);
+}); 
+
+/* 全体のレイアウトを作成 */
 BorderPane borderPane = new BorderPane();
-borderPane.setCenter(chart);
+BorderPane innerPane = new BorderPane();
+innerPane.setRight(vbox);
+innerPane.setCenter(chart2);
+borderPane.setCenter(chart1);
+borderPane.setTop(innerPane);
 borderPane.setBottom(slider);
 
 /* ウ イ ン ド ウ 表 示 */
