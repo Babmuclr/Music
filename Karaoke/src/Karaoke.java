@@ -14,6 +14,7 @@ import javafx.application.Platform;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -236,6 +237,8 @@ public final class Karaoke extends Application {
         	datum.setXValue((i + position - recorder.getFrameSize()) / recorder.getSampleRate());
         	datum.setYValue(fundFreq);
         });
+
+        series1.getData().add(new Entry((position - recorder.getFrameSize()) / recorder.getSampleRate(), app));
         final double posInSec = position / recorder.getSampleRate();
         xAxis1.setLowerBound(posInSec - frameDuration);
         xAxis1.setUpperBound(posInSec);

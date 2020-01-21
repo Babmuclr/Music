@@ -259,10 +259,10 @@
       <children xsi:type="basic:PartSashContainer" xmi:id="_p1enwDw-Eeq-Gvbx4eIQoA" selectedElement="_rRZMIDw-Eeq-Gvbx4eIQoA">
         <children xsi:type="basic:PartSashContainer" xmi:id="_rRZMIDw-Eeq-Gvbx4eIQoA" containerData="5000" selectedElement="_rRZMITw-Eeq-Gvbx4eIQoA" horizontal="true">
           <children xsi:type="basic:PartStack" xmi:id="_rRZMITw-Eeq-Gvbx4eIQoA" elementId="PartStack@6a42b57c" containerData="5000" selectedElement="_tvOLYDw8Eeq-Gvbx4eIQoA">
-            <tags>noFocus</tags>
             <tags>active</tags>
+            <tags>noFocus</tags>
             <children xsi:type="basic:Part" xmi:id="_tvOLYDw8Eeq-Gvbx4eIQoA" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Karaoke.java" iconURI="platform:/plugin/org.eclipse.jdt.ui/icons/full/obj16/jcu_obj.png" closeable="true">
-              <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Karaoke.java&quot; partName=&quot;Karaoke.java&quot; title=&quot;Karaoke.java&quot; tooltip=&quot;Karaoke/src/Karaoke.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/Karaoke/src/Karaoke.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;829&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
+              <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot; name=&quot;Karaoke.java&quot; partName=&quot;Karaoke.java&quot; title=&quot;Karaoke.java&quot; tooltip=&quot;Karaoke/src/Karaoke.java&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/Karaoke/src/Karaoke.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;8917&quot; selectionTopPixel=&quot;3509&quot;/>&#xA;&lt;/editor>"/>
               <tags>Editor</tags>
               <tags>org.eclipse.jdt.ui.CompilationUnitEditor</tags>
               <tags>removeOnHide</tags>
@@ -554,7 +554,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_gckAhDPxEeqe7IvDX7Av0w" elementId="org.eclipse.ui.workbench.file">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_j2ucQDw8Eeq-Gvbx4eIQoA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_gcphXTPxEeqe7IvDX7Av0w"/>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_xtiD8DxQEeqQFOATfUw7xA" elementId="print" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/print_edit.png" tooltip="Print" command="_gcphXTPxEeqe7IvDX7Av0w"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_gckAkTPxEeqe7IvDX7Av0w" elementId="additions" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -591,10 +591,7 @@
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_gckA5jPxEeqe7IvDX7Av0w" elementId="org.eclipse.ui.workbench.navigate">
         <tags>Draggable</tags>
-        <children xsi:type="menu:HandledToolItem" xmi:id="_j2wRcDw8Eeq-Gvbx4eIQoA" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_gcphADPxEeqe7IvDX7Av0w"/>
-      </children>
-      <children xsi:type="menu:ToolBar" xmi:id="_kG4_MDw8Eeq-Gvbx4eIQoA" elementId="org.eclipse.jdt.ui.CompilationUnitEditor" visible="false">
-        <tags>Draggable</tags>
+        <children xsi:type="menu:HandledToolItem" xmi:id="_xtkgMDxQEeqQFOATfUw7xA" elementId="org.eclipse.ui.window.pinEditor" visible="false" iconURI="platform:/plugin/org.eclipse.ui/icons/full/etool16/pin_editor.png" tooltip="Pin Editor" type="Check" command="_gcphADPxEeqe7IvDX7Av0w"/>
       </children>
       <children xsi:type="menu:ToolBar" xmi:id="_gckA8TPxEeqe7IvDX7Av0w" elementId="group.editor" toBeRendered="false">
         <tags>toolbarSeparator</tags>
@@ -3674,7 +3671,7 @@
   <addons xmi:id="_gcqIiDPxEeqe7IvDX7Av0w" elementId="MinMax Addon" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.minmax.MinMaxAddon"/>
   <addons xmi:id="_gcqIiTPxEeqe7IvDX7Av0w" elementId="org.eclipse.ui.workbench.addon.0" contributorURI="platform:/plugin/org.eclipse.platform" contributionURI="bundleclass://org.eclipse.e4.ui.workbench/org.eclipse.e4.ui.internal.workbench.addons.HandlerProcessingAddon"/>
   <addons xmi:id="_gcqIijPxEeqe7IvDX7Av0w" elementId="SplitterAddon" contributionURI="bundleclass://org.eclipse.e4.ui.workbench.addons.swt/org.eclipse.e4.ui.workbench.addons.splitteraddon.SplitterAddon"/>
-  <addons xmi:id="_i5XcIDw8Eeq-Gvbx4eIQoA" elementId="org.eclipse.ui.ide.addon.0" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
+  <addons xmi:id="_IYS0IKimEeS11vbz3f9ezw" elementId="org.eclipse.ui.ide.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide" contributionURI="bundleclass://org.eclipse.ui.ide/org.eclipse.ui.internal.ide.addons.SaveAllDirtyPartsAddon"/>
   <addons xmi:id="_gcqIjDPxEeqe7IvDX7Av0w" elementId="org.eclipse.ui.ide.application.addon.0" contributorURI="platform:/plugin/org.eclipse.ui.ide.application" contributionURI="bundleclass://org.eclipse.ui.ide.application/org.eclipse.ui.internal.ide.application.addons.ModelCleanupAddon"/>
   <categories xmi:id="_gcqIjTPxEeqe7IvDX7Av0w" elementId="org.eclipse.ui.category.edit" name="Edit"/>
   <categories xmi:id="_gcqIjjPxEeqe7IvDX7Av0w" elementId="org.eclipse.mylyn.wikitext.ui.editor.category" name="WikiText Markup Editing Commands" description="commands for editing lightweight markup"/>

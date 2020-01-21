@@ -3,7 +3,6 @@
 <fullyQualifiedTypeName name="jp.ac.kyoto_u.kuis.le4music.Le4MusicUtils"/>
 <fullyQualifiedTypeName name="com.sun.javafx.util.Utils"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Slider"/>
-<fullyQualifiedTypeName name="javafx.scene.chart.XYChart.Data"/>
 <fullyQualifiedTypeName name="jp.ac.kyoto_u.kuis.le4music.LineChartWithSpectrogram"/>
 <fullyQualifiedTypeName name="javafx.beans.value.ObservableValue"/>
 <fullyQualifiedTypeName name="javafx.scene.control.TextField"/>
@@ -22,4 +21,7 @@
 <fullyQualifiedTypeName name="java.awt.Font"/>
 <fullyQualifiedTypeName name="javafx.scene.text.Font"/>
 <fullyQualifiedTypeName name="javafx.geometry.Pos"/>
+<fullyQualifiedTypeName name="javafx.scene.chart.XYChart.Data"/>
+<fullyQualifiedTypeName name="com.sun.javafx.webkit.KeyCodeMap.Entry"/>
+<fullyQualifiedTypeName name="javafx.scene.web.WebHistory.Entry"/>
 </qualifiedTypeNameHistroy>

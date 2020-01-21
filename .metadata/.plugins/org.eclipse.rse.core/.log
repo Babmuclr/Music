@@ -1,4 +1,4 @@
-Tue Jan 21 19:55:44 JST 2020
+Tue Jan 21 22:20:27 JST 2020
 ERROR org.eclipse.rse.core  Unexpected Exception
 java.net.UnknownHostException: ws20: ws20: 名前またはサービスが不明です
 	at java.net.InetAddress.getLocalHost(InetAddress.java:1505)
