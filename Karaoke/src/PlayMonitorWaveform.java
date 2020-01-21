@@ -39,7 +39,7 @@ public final class PlayMonitorWaveform extends Application {
     MethodHandles.lookup().lookupClass().getName() + " [OPTIONS] <WAVFILE>";
 
   static {
-    /* 繧ｳ繝槭Φ繝峨Λ繧､繝ｳ繧ｪ繝励す繝ｧ繝ｳ螳夂ｾｩ */
+    /* コマンドラインオプション定義 */
     options.addOption("h", "help", false, "Display this help and exit");
     options.addOption("v", "verbose", false, "Verbose output");
     options.addOption("m", "mixer", true,
@@ -66,7 +66,7 @@ public final class PlayMonitorWaveform extends Application {
          UnsupportedAudioFileException,
          LineUnavailableException,
          ParseException {
-    /* 繧ｳ繝槭Φ繝峨Λ繧､繝ｳ蠑墓焚蜃ｦ逅� */
+    /* コマンドライン引数処理 */
     final String[] args = getParameters().getRaw().toArray(new String[0]);
     final CommandLine cmd = new DefaultParser().parse(options, args);
     if (cmd.hasOption("help")) {
@@ -89,7 +89,7 @@ public final class PlayMonitorWaveform extends Application {
         .map(Double::parseDouble)
         .orElse(Le4MusicUtils.frameDuration);
 
-    /* Player 繧剃ｽ懈� */
+    /* Player を作成 */
     final Player.Builder builder = Player.builder(wavFile);
     Optional.ofNullable(cmd.getOptionValue("mixer"))
       .map(Integer::parseInt)
@@ -107,17 +107,17 @@ public final class PlayMonitorWaveform extends Application {
     builder.daemon();
     final Player player = builder.build();
 
-    /* 繝��繧ｿ邉ｻ蛻励ｒ菴懈� */
+    /* データ系列を作成 */
     final ObservableList<XYChart.Data<Number, Number>> data =
       IntStream.range(0, player.getFrameSize())
         .mapToObj(i -> new XYChart.Data<Number, Number>(i / player.getSampleRate(), 0.0))
         .collect(Collectors.toCollection(FXCollections::observableArrayList));
 
-    /* 繝��繧ｿ邉ｻ蛻励↓蜷榊燕繧偵▽縺代ｋ */
+    /* データ系列に名前をつける */
     final XYChart.Series<Number, Number> series =
       new XYChart.Series<>("Waveform", data);
 
-    /* 霆ｸ繧剃ｽ懈� */
+    /* 軸を作成 */
     final NumberAxis xAxis = new NumberAxis(
       /* axisLabel  = */ "Time (seconds)",
       /* lowerBound = */ -frameDuration,
@@ -135,7 +135,7 @@ public final class PlayMonitorWaveform extends Application {
       /* tickUnit   = */ Le4MusicUtils.autoTickUnit(ampBounds * 2.0)
     );
 
-    /* 繝√Ε繝ｼ繝医ｒ菴懈� */
+    /* チャートを作成 */
     final LineChart<Number, Number> chart = new LineChart<>(xAxis, yAxis);
     chart.setTitle("Waveform");
     chart.setCreateSymbols(false);
@@ -143,7 +143,7 @@ public final class PlayMonitorWaveform extends Application {
     chart.setAnimated(false);
     chart.getData().add(series);
 
-    /* 謠冗判繧ｦ繧､繝ｳ繝峨え菴懈� */
+    /* 描画ウインドウ作成 */
     final Scene scene  = new Scene(chart, 800, 600);
     scene.getStylesheets().add("src/le4music.css");
     primaryStage.setScene(scene);
@@ -151,7 +151,7 @@ public final class PlayMonitorWaveform extends Application {
     primaryStage.show();
 
     player.addAudioFrameListener((frame, position) -> Platform.runLater(() -> {
-      /* 譛譁ｰ繝輔Ξ繝ｼ繝�縺ｮ豕｢蠖｢繧呈緒逕ｻ */
+      /* 最新フレームの波形を描画 */
       IntStream.range(0, player.getFrameSize()).forEach(i -> {
         data.get(i).setXValue((i + position) / player.getSampleRate());
         data.get(i).setYValue(frame[i]);

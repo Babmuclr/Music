@@ -29,7 +29,7 @@ import java.io.IOException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
 public final class PlotSoundPitch extends Application {
-	
+
 @Override public final void start(final Stage primaryStage)
 throws IOException,
 UnsupportedAudioFileException {
@@ -88,8 +88,6 @@ for(int i = 0; i < specLog.length; i++) {
 			.toArray();
 }
 
-System.out.print(cepstrums.length);
-
 final double duration = frameDuration / (cepstrums[0].length - 1);
 
 double[] fundFreqs = new double[cepstrums.length];
@@ -114,22 +112,22 @@ for(int i = 0; i < cepstrums.length; i++) {
 /*
 for(int i = 0; i<cepstrums[160].length;i++) {
 	System.out.print(i + "  "+ 1 / (i * duration) + "  " + cepstrums[200][i] +"  " + fundFreqs[200] +"\n");
-} 
-*/
-/* デ ー タ 系 列 を 作 成 */
-/*
-final ObservableList<XYChart.Data<Number, Number>> data =
-IntStream.range(0, cepstrums[0].length)
-.mapToObj(i -> new XYChart.Data<Number, Number>(i * duration, cepstrums[200][i]))
-.collect(Collectors.toCollection(FXCollections::observableArrayList));
+}
 */
 /* デ ー タ 系 列 を 作 成 */
 
+final ObservableList<XYChart.Data<Number, Number>> data =
+IntStream.range(0, cepstrums[0].length)
+.mapToObj(i -> new XYChart.Data<Number, Number>(i, cepstrums[80][i]))
+.collect(Collectors.toCollection(FXCollections::observableArrayList));
+
+/* デ ー タ 系 列 を 作 成 */
+/*
 final ObservableList<XYChart.Data<Number, Number>> data =
 IntStream.range(0,fundFreqs.length)
 .mapToObj(i -> new XYChart.Data<Number, Number>(i* shiftDuration,fundFreqs[i]))
 .collect(Collectors.toCollection(FXCollections::observableArrayList));
-
+*/
 /* デ ー タ 系 列 に 名 前 を つ け る */
 final XYChart.Series<Number, Number> series =
 new XYChart.Series<>("cepstrum", data);
@@ -138,9 +136,9 @@ new XYChart.Series<>("cepstrum", data);
 final double freqLowerBound =(0.0);
 final double freqUpperBound = (nyquist);
 final NumberAxis xAxis = new NumberAxis(
-/* axisLabel = */ "Frequency (Hz)",
-/* lowerBound = */ freqLowerBound,
-/* upperBound = */ 10,
+/* axisLabel = */ "Time",
+/* lowerBound = */ 0,
+/* upperBound = */ 2048,
 /* tickUnit =  Le4MusicUtils.autoTickUnit(freqUpperBound - freqLowerBound)*/ 0.1
 );
 xAxis.setAnimated(false);
@@ -150,7 +148,7 @@ final double ampLowerBound =(Le4MusicUtils.spectrumAmplitudeLowerBound);
 
 final double ampUpperBound =(Le4MusicUtils.spectrumAmplitudeUpperBound);
 final NumberAxis yAxis = new NumberAxis(
-/* axisLabel = */ "Amplitude (dB)",
+/* axisLabel = */ "Amplitude",
 /* lowerBound = */ -250,
 /* upperBound = */ 250,
 /* tickUnit = */ Le4MusicUtils.autoTickUnit(ampUpperBound - ampLowerBound)
@@ -160,7 +158,7 @@ yAxis.setAnimated(false);
 /* チ ャ ー ト を 作 成 */
 final LineChart<Number, Number> chart =
 new LineChart<>(xAxis, yAxis);
-chart.setTitle("Spectrum");
+chart.setTitle("Cepstrum");
 chart.setCreateSymbols(false);
 chart.setLegendVisible(false);
 chart.getData().add(series);

@@ -106,7 +106,7 @@ for(int i = 0; i < shiftSize; i++) {
 			count += 1;
 		}
 	}
-	if(count > 30) {
+	if(count > 30 && count <200) {
 		zerocross[i] = count;
 	}
 }

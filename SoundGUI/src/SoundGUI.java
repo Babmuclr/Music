@@ -234,7 +234,7 @@ for(int i=0;i<5;i++) {
 	Stream<Complex[]> spectrogram3 = Le4MusicUtils.sliding(studywaveform, window, shiftSize).map(frame -> Le4MusicUtils.rfft(frame));
 	double[][] specLog3 = spectrogram3.map(sp -> Arrays.stream(sp).mapToDouble(c -> Math.log10(c.abs())).toArray()).toArray(n -> new double[n][]);
 	double[][] studycepstrums = new double[specLog3.length][];
-	
+
 	/* ケプストラムを作成 */
 	for(int j = 0; j < specLog3.length; j++) {
 		double[] s = Arrays.copyOfRange(specLog3[j],0,specLog3[j].length-1);
@@ -272,7 +272,7 @@ for(int i = 0; i < shiftSize; i++) {
 			count += 1;
 		}
 	}
-	if(count > 30) {
+	if(count > 30 && count <200) {
 		zerocross[i] = count;
 	}
 }
@@ -313,7 +313,7 @@ while(q < 49 && p < 400) {
 int[] basicfqs = new int[specLog1.length];
 
 for(int k = 0;k< specLog1.length;k++) {
-	
+
 /* SSHを使って目的の基本周波数を推定する */
 /* 候補を36から60にする */
 double[] candidates = new double[25];
@@ -325,7 +325,7 @@ for(int i=0;i<=24;i++) {
 		double fp = f * r;
 		int first_num = 0;
 		for(int j=0;j<49;j++) {
-			if(frequencies[j] >= fp) { 
+			if(frequencies[j] >= fp) {
 				first_num = j;
 				break;
 			}
@@ -372,7 +372,7 @@ for(int i = 0; i < cepstrums.length; i++) {
 	int ans = 0;
 	for (int j = 10; j < 200; j++) {
 
-		
+
 		if(fundFreq < cepstrums[i][j]) {
 			fundFreq = cepstrums[i][j];
 			ans = j;
@@ -404,7 +404,7 @@ for(int i = 0; i < cepstrums.length; i++) {
 	}
 	int ans = 0;
 	String str = "";
-	
+
 	if(zerocross[i] == 0) {
 		ans = 0;
 		str = "No Signal";
@@ -554,7 +554,7 @@ label2.setText("Vowel Identification	:   " + dicters[num]);
 label3.setText("Fundamental Frequency	:   " + String.format("%.2f" ,fundFreqs[num]) + "	Hz");
 label4.setText("Time	:   " + String.format("%.2f" ,shiftDuration * num) + "	s");
 label5.setText("Pitch	:   " + Pitches[num]);
-}); 
+});
 
 /* 全体のレイアウトを作成 */
 BorderPane borderPane = new BorderPane();

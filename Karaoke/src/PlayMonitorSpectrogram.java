@@ -39,7 +39,7 @@ public final class PlayMonitorSpectrogram extends Application {
     MethodHandles.lookup().lookupClass().getName() + " [OPTIONS] <WAVFILE>";
 
   static {
-    /* 繧ｳ繝槭Φ繝峨Λ繧､繝ｳ繧ｪ繝励す繝ｧ繝ｳ螳夂ｾｩ */
+    /* コマンドラインオプション定義 */
     options.addOption("h", "help", false, "display this help and exit");
     options.addOption("v", "verbose", false, "Verbose output");
     options.addOption("m", "mixer", true,
@@ -74,7 +74,7 @@ public final class PlayMonitorSpectrogram extends Application {
          UnsupportedAudioFileException,
          LineUnavailableException,
          ParseException {
-    /* 繧ｳ繝槭Φ繝峨Λ繧､繝ｳ蠑墓焚蜃ｦ逅� */
+    /* コマンドライン引数処理 */
     final String[] args = getParameters().getRaw().toArray(new String[0]);
     final CommandLine cmd = new DefaultParser().parse(options, args);
     if (cmd.hasOption("help")) {
@@ -102,7 +102,7 @@ public final class PlayMonitorSpectrogram extends Application {
         .map(Double::parseDouble)
         .orElse(Le4MusicUtils.frameInterval);
 
-    /* Player 繧剃ｽ懈� */
+    /* Player を作成 */
     final Player.Builder builder = Player.builder(wavFile);
     Optional.ofNullable(cmd.getOptionValue("mixer"))
       .map(Integer::parseInt)
@@ -117,30 +117,30 @@ public final class PlayMonitorSpectrogram extends Application {
       .map(Double::parseDouble)
       .ifPresent(builder::frameDuration);
     builder.interval(interval);
-    builder.daemon(); 
+    builder.daemon();
     final Player player = builder.build();
 
-    /* 繝��繧ｿ蜃ｦ逅�せ繝ｬ繝�ラ */
+    /* データ処理スレッド */
     final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    /* 遯馴未謨ｰ縺ｨFFT縺ｮ繧ｵ繝ｳ繝励Ν謨ｰ */
+    /* 窓関数とFFTのサンプル数 */
     final int fftSize = 1 << Le4MusicUtils.nextPow2(player.getFrameSize());
     final int fftSize2 = (fftSize >> 1) + 1;
 
-    /* 遯馴未謨ｰ繧呈ｱゅａ�後◎繧後ｒ豁｣隕丞喧縺吶ｋ */
+    /* 窓関数を求め，それを正規化する */
     final double[] window =
       MathArrays.normalizeArray(Le4MusicUtils.hanning(player.getFrameSize()), 1.0);
 
-    /* 蜷�ヵ繝ｼ繝ｪ繧ｨ螟画鋤菫よ焚縺ｫ蟇ｾ蠢懊☆繧句捉豕｢謨ｰ */
+    /* 各フーリエ変換係数に対応する周波数 */
     final double[] freqs =
       IntStream.range(0, fftSize2)
                .mapToDouble(i -> i * player.getSampleRate() / fftSize)
                .toArray();
 
-    /* 繝輔Ξ繝ｼ繝�謨ｰ */
+    /* フレーム数 */
     final int frames = (int)Math.round(duration / interval);
 
-    /* 霆ｸ繧剃ｽ懈� */
+    /* 軸を作成 */
     final NumberAxis xAxis = new NumberAxis(
       /* axisLabel  = */ "Time (seconds)",
       /* lowerBound = */ -duration,
@@ -174,18 +174,18 @@ public final class PlayMonitorSpectrogram extends Application {
     );
     yAxis.setAnimated(false);
 
-    /* 繧ｹ繝壹け繝医Ο繧ｰ繝ｩ繝�陦ｨ遉ｺchart */
+    /* スペクトログラム表示chart */
     final LineChartWithSpectrogram<Number, Number> chart =
       new LineChartWithSpectrogram<>(xAxis, yAxis);
     chart.setParameters(frames, fftSize2, player.getNyquist());
     chart.setTitle("Spectrogram");
 
-    /* 繧ｰ繝ｩ繝墓緒逕ｻ */
+    /* グラフ描画 */
     final Scene scene = new Scene(chart, 800, 600);
     scene.getStylesheets().add("src/le4music.css");
     primaryStage.setScene(scene);
     primaryStage.setTitle(getClass().getName());
-    /* 繧ｦ繧､繝ｳ繝峨え繧帝哩縺倥◆縺ｨ縺阪↓莉悶せ繝ｬ繝�ラ繧ょ●豁｢縺輔○繧� */
+    /* ウインドウを閉じたときに他スレッドも停止させる */
     primaryStage.setOnCloseRequest(req -> executor.shutdown());
     primaryStage.show();
     Platform.setImplicitExit(true);
@@ -195,15 +195,15 @@ public final class PlayMonitorSpectrogram extends Application {
       final Complex[] spectrum = Le4MusicUtils.rfft(Arrays.copyOf(wframe, fftSize));
       final double posInSec = position / player.getSampleRate();
 
-      /* 繧ｹ繝壹け繝医Ο繧ｰ繝ｩ繝�謠冗判 */
+      /* スペクトログラム描画 */
       chart.addSpectrum(spectrum);
 
-      /* 霆ｸ繧呈峩譁ｰ */
+      /* 軸を更新 */
       xAxis.setUpperBound(posInSec);
       xAxis.setLowerBound(posInSec - duration);
     }));
 
-    /* 骭ｲ髻ｳ髢句ｧ� */
+    /* 録音開始 */
     Platform.runLater(player::start);
   }
 

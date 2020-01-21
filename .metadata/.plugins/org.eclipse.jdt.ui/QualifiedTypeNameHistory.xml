@@ -18,4 +18,7 @@
 <fullyQualifiedTypeName name="javafx.scene.text.Font"/>
 <fullyQualifiedTypeName name="java.lang.String"/>
 <fullyQualifiedTypeName name="javafx.scene.layout.GridPane"/>
+<fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
+<fullyQualifiedTypeName name="javafx.embed.swing.SwingFXUtils"/>
+<fullyQualifiedTypeName name="javafx.scene.image.WritableImage"/>
 </qualifiedTypeNameHistroy>
