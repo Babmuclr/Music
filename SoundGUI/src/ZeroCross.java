@@ -51,6 +51,16 @@ options.addOption("a", "amp-bounds", true,
 "(Default: " + Le4MusicUtils.waveformAmplitudeBounds + ")");
 }
 
+public final static int calc_max(int a, int b) {
+	int ans = 0;
+	if(a>b) {
+		ans = a;
+	}else {
+		ans = b;
+	}
+	return ans;
+}
+
 @Override
 public final void start(final Stage primaryStage)
 throws IOException,

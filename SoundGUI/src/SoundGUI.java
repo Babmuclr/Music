@@ -261,7 +261,6 @@ for(int i=0;i<5;i++) {
 
 /* ゼロ交差数を求める */
 final double durationSpec = frameDuration / (cepstrums[0].length - 1);
-
 int[] zerocross = new int[shiftSize];
 for(int i = 0; i < shiftSize; i++) {
 	int count = 0;
@@ -351,7 +350,7 @@ else {
 }
 }
 
-/* basicfqsは音声のノード番号が格納されている
+/* basicfqsは音声のノード番号が格納されている 
  * ノード番号とC2などの音階とを対応させて出力 */
 String[] Pitches = new String[cepstrums.length];
 String[] PitchSamples = {

@@ -79,7 +79,6 @@ public final class Karaoke extends Application {
 	    options.addOption("f", "frame", true, "Frame duration [seconds]");
 	    options.addOption("i", "interval", true, "Frame update interval [seconds]");
 	}
-
 	public final void start(final Stage primaryStage)
 			  throws IOException,
 			         UnsupportedAudioFileException,
@@ -107,17 +106,17 @@ public final class Karaoke extends Application {
 	    	      Optional.ofNullable(cmd.getOptionValue("duration"))
 	    	        .map(Double::parseDouble)
 	    	        .orElse(Le4MusicUtils.spectrogramDuration);
-
+	    // 10.0
 	    final double interval =
 	    	      Optional.ofNullable(cmd.getOptionValue("interval"))
 	    	        .map(Double::parseDouble)
 	    	        .orElse(Le4MusicUtils.frameInterval);
-
+	    // 0.02
 	    final double frameDuration =
 	    	      Optional.ofNullable(cmd.getOptionValue("frame"))
 	    	        .map(Double::parseDouble)
 	    	        .orElse(Le4MusicUtils.frameDuration);
-
+	    // 0.2
 	    final Player.Builder playbuilder = Player.builder(wavFile);
 	    final Recorder.Builder recbuilder = Recorder.builder();
 
@@ -164,6 +163,58 @@ public final class Karaoke extends Application {
 
 	    final ExecutorService executor = Executors.newSingleThreadExecutor();
 
+	    /* 定数の定義 */
+	    /* 窓関数とFFTのサンプル数 */
+	    final int fftSize = 1 << Le4MusicUtils.nextPow2(player.getFrameSize());
+	    final int fftSize2 = (fftSize >> 1) + 1;
+	    /* 窓関数を求め，それを正規化する */
+	    final double[] window =
+	      MathArrays.normalizeArray(Le4MusicUtils.hanning(player.getFrameSize()), 1.0);
+	    /* 各フーリエ変換係数に対応する周波数 */
+	    final double[] freqs =
+	      IntStream.range(0, fftSize2)
+	               .mapToDouble(i -> i * player.getSampleRate() / fftSize)
+	               .toArray();
+	    /* フレーム数 */
+	    final int frames = (int)Math.round(duration / interval);
+	    /* 33番目から84番目までのノードの周波数の列 */
+	    double[] frequencies = new double[49];
+	    frequencies[0] = 65.4;
+	    frequencies[1] = 69.3;
+	    frequencies[2] = 73.4;
+	    frequencies[3] = 77.8;
+	    frequencies[4] = 82.4;
+	    frequencies[5] = 87.3;
+	    frequencies[6] = 92.5;
+	    frequencies[7] = 98.0;
+	    frequencies[8] = 103.8;
+	    frequencies[9] = 110.0;
+	    frequencies[10] = 116.5;
+	    frequencies[11] = 123.4;
+	    frequencies[48] = 1046.5;
+	    for(int i=1;i<4;i++) {
+	    	for(int j=0;j<12;j++) {
+	    		frequencies[12*i+j] = frequencies[12*(i-1)+j]*2;
+	    	}
+	    }
+	    /* 33番目から117番目までのノードの周波数の列 */
+	    int nodenums[] = new int[49];
+	    int p = 0, q = 0;
+	    while(q < 49 && p < 400) {
+	    	if(freqs[p] > frequencies[q]) {
+	    		nodenums[q] = p;
+	    		q++;
+	    		p++;
+	    	}
+	    	p++;
+	    }
+	    String[] PitchSamples = {
+	    		"C2","C#2","D2","D#2","E2","F2","F#2","G2","G#2","A2","A#2","B2",
+	    		"C3","C#3","D3","D#3","E3","F3","F#3","G3","G#3","A3","A#3","B3",
+	    		"C4","C#4","D4","D#4","E4","F4","F#4","G4","G#4","A4","A#4","B4",
+	    		"C5","C#5","D5","D#5","E5","F5","F#5","G5","G#5","A5","A#5","B5",
+	    		"C6","No Signal"};
+
 	    /* データ系列を作成 */
 	    final ObservableList<XYChart.Data<Number, Number>> data =
 	      IntStream.range(-recorder.getFrameSize(), 0)
@@ -205,28 +256,78 @@ public final class Karaoke extends Application {
 
 	    /* 描画ウインドウ作成 */
 	    final Scene scene  = new Scene(chart, 800, 600);
-	    scene.getStylesheets().add("src/le4music.css");
 	    primaryStage.setScene(scene);
 	    primaryStage.setTitle(getClass().getName());
 	    /* ウインドウを閉じたときに他スレッドも停止させる */
 	    primaryStage.setOnCloseRequest(req -> executor.shutdown());
 	    primaryStage.show();
 
+	    /* 録音したデータを解析する */
 	    recorder.addAudioFrameListener((frame, position) -> executor.execute(() -> {
 	      IntStream.range(0, recorder.getFrameSize()).forEach(i -> {
 	        final XYChart.Data<Number, Number> datum = data.get(i);
 	        datum.setXValue((i + position - recorder.getFrameSize()) / recorder.getSampleRate());
 	        datum.setYValue(frame[i]);
+
+	        final double[] wframe = MathArrays.ebeMultiply(frame, window);
+	        final Complex[] spectrum = Le4MusicUtils.rfft(Arrays.copyOf(wframe, fftSize));
+	        final double [] spec = Arrays.stream(spectrum)
+	        		.mapToDouble(c->Math.log10(c.abs())).toArray();
+	        final double[] cepstrum = Arrays.stream(Le4MusicUtils.fft(Arrays.copyOfRange(spec,0,spec.length-1)))
+	        		.mapToDouble(c->c.getReal()).toArray();
+	        double fixFreq = 50;
+	        int max_time = 0;
+	        for (int j = 10; j < 200; j++) {
+	        	if(fixFreq < cepstrum[j]) {
+	        			fixFreq = cepstrum[j];
+	        			max_time = j;
+	        	}}
+	        if (max_time > 50 && 1000 > max_time) {
+        		double fundFreq = 1 / (max_time * frameDuration / (cepstrum.length - 1));
+        	}else {
+        		double fundFreq = 0;
+        	}
+	        double[] candidates = new double[25];
+	        for(int j=0;j<=24;j++) {
+	        	double f = frequencies[j];
+	        	double each_value = 0;
+	        	int r=1;
+	        	while(r<=3) {
+	        		double fp = f * r;
+	        		int fix_num = 0;
+	        		for(int k=0;k<49;k++) {
+	        			if(frequencies[k] >= fp) {
+	        				fix_num = k;
+	        				break;
+	        			}
+	        		}
+	        		each_value += cepstrum[nodenums[fix_num]] / r;
+	        		r++;
+	        	}
+	        	candidates[j] = each_value;
+	        }
+	        int nodenum = 0;
+	        double fix_val = 0;
+	        for(int j=0;j<25;j++) {
+	        	if (fix_val <= candidates[j]) {
+	        		nodenum = j;
+	        		fix_val = candidates[j];
+	        	}
+	        }
+	        String pitch = PitchSamples[nodenum];
 	      });
-	      final double posInSec = position / recorder.getSampleRate();
-	      xAxis.setLowerBound(posInSec - frameDuration);
+
+	      /* 軸の更新 */
+	      final double posInSec = position / player.getSampleRate();
+	      // final double posInSec = position / recorder.getSampleRate();
+	      // play duration = 10.0
+	      xAxis.setLowerBound(posInSec - duration);
+	      // rec frameDuration = 0.2
+	      // xAxis.setLowerBound(posInSec - frameDuration);
 	      xAxis.setUpperBound(posInSec);
 	    }));
 
 	    /* 録音開始 */
 	    Platform.runLater(recorder::start);
-
-
-
 	}
 }
