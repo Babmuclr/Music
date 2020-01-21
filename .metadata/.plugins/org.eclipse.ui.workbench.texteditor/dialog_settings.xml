@@ -4,4 +4,10 @@
 		<item value="1623" key="DIALOG_X_ORIGIN"/>
 		<item value="949" key="DIALOG_Y_ORIGIN"/>
 	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="RecMonitorWaveform" key="selection"/>
+		<list key="findhistory">
+			<item value="RecMonitorWaveform"/>
+		</list>
+	</section>
 </section>
