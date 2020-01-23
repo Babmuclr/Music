@@ -182,7 +182,6 @@ public final class PlayMonitorSpectrogram extends Application {
 
     /* グラフ描画 */
     final Scene scene = new Scene(chart, 800, 600);
-    scene.getStylesheets().add("src/le4music.css");
     primaryStage.setScene(scene);
     primaryStage.setTitle(getClass().getName());
     /* ウインドウを閉じたときに他スレッドも停止させる */

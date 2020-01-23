@@ -15,7 +15,6 @@
 <fullyQualifiedTypeName name="javax.imageio.ImageIO"/>
 <fullyQualifiedTypeName name="javafx.embed.swing.SwingFXUtils"/>
 <fullyQualifiedTypeName name="javafx.scene.image.WritableImage"/>
-<fullyQualifiedTypeName name="javafx.scene.layout.BorderPane"/>
 <fullyQualifiedTypeName name="javafx.scene.layout.VBox"/>
 <fullyQualifiedTypeName name="javafx.scene.control.Label"/>
 <fullyQualifiedTypeName name="java.awt.Font"/>
@@ -24,4 +23,8 @@
 <fullyQualifiedTypeName name="javafx.scene.chart.XYChart.Data"/>
 <fullyQualifiedTypeName name="com.sun.javafx.webkit.KeyCodeMap.Entry"/>
 <fullyQualifiedTypeName name="javafx.scene.web.WebHistory.Entry"/>
+<fullyQualifiedTypeName name="javafx.scene.text.Text"/>
+<fullyQualifiedTypeName name="javafx.scene.layout.BorderPane"/>
+<fullyQualifiedTypeName name="javafx.scene.text.TextAlignment"/>
+<fullyQualifiedTypeName name="javafx.geometry.Insets"/>
 </qualifiedTypeNameHistroy>

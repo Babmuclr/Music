@@ -19,6 +19,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.collections.ObservableList;
@@ -158,7 +160,7 @@ public final class Karaoke extends Application {
     /* 時間軸（横軸） */
     final NumberAxis xAxis1 = new NumberAxis(
       /* axisLabel  = */ "Time (seconds)",
-      /* lowerBound = */ -duration,
+      /* lowerBound = */ -frameDuration,
       /* upperBound = */ 0.0,
       /* tickUnit   = */ Le4MusicUtils.autoTickUnit(duration)
     );
@@ -166,8 +168,8 @@ public final class Karaoke extends Application {
     final NumberAxis yAxis1 = new NumberAxis(
       /* axisLabel  = */ "Amplitude",
       /* lowerBound = */ 0.0,
-      /* upperBound = */ +1000.0,
-      /* tickUnit   = */ Le4MusicUtils.autoTickUnit(1.0 * 2)
+      /* upperBound = */ +50.0,
+      /* tickUnit   = */ 10
     );
 
     /* 窓関数とFFTのサンプル数 */
@@ -183,10 +185,43 @@ public final class Karaoke extends Application {
       IntStream.range(0, fftSize2)
                .mapToDouble(i -> i * player.getSampleRate() / fftSize)
                .toArray();
+    /* 33番目から84番目までのノードの周波数の列 */
+    double[] frequencies = new double[49];
+    frequencies[0] = 65.4;
+    frequencies[1] = 69.3;
+    frequencies[2] = 73.4;
+    frequencies[3] = 77.8;
+    frequencies[4] = 82.4;
+    frequencies[5] = 87.3;
+    frequencies[6] = 92.5;
+    frequencies[7] = 98.0;
+    frequencies[8] = 103.8;
+    frequencies[9] = 110.0;
+    frequencies[10] = 116.5;
+    frequencies[11] = 123.4;
+    frequencies[48] = 1046.5;
+    for(int i=1;i<4;i++) {
+    	for(int j=0;j<12;j++) {
+    		frequencies[12*i+j] = frequencies[12*(i-1)+j]*2;
+    	}
+    }
 
+    /* 33番目から117番目までのノードの周波数の列 */
+    int nodenums[] = new int[49];
+    int p = 0, q = 0;
+    while(q < 49 && p < 400) {
+    	if(freqs[p] > frequencies[q]) {
+    		nodenums[q] = p;
+    		q++;
+    		p++;
+    	}
+    	p++;
+    }
+
+    
     /* フレーム数 */
     final int frames = (int)Math.round(duration / interval);
-
+    final int size = (int)(duration / interval);
     
     /* チャートを作成 */
     final LineChartWithMarker<Number, Number> chart1 = new LineChartWithMarker<>(xAxis1, yAxis1);
@@ -213,10 +248,8 @@ public final class Karaoke extends Application {
         for(int j=0;j<spec_volume.length;j++) {
     		app += Math.pow(spec_volume[j],2);
     	}
-        app = 20 * Math.log10(Math.sqrt(app / spec_volume.length)/ (2 * 0.00001));
-        if (app<0){
-    		app = 0;
-    	}
+        final double volume = 20 * Math.log10(Math.sqrt(app / spec_volume.length)/ (2 * 0.00001));
+        
         final double[] cepstrum = Arrays.stream(Le4MusicUtils.fft(Arrays.copyOfRange(spec,0,spec.length-1)))
         		.mapToDouble(c->c.getReal()).toArray();
         double fixFreq = 50;
@@ -226,21 +259,62 @@ public final class Karaoke extends Application {
         			fixFreq = cepstrum[j];
         			max_time = j;
         	}}
+        
         double fundFreq;
         if (max_time > 50 && 1000 > max_time) {
     		fundFreq = 1 / (max_time * frameDuration / (cepstrum.length - 1));
     	}else {
     		fundFreq = 0;
     	}
-        IntStream.range(0, recorder.getFrameSize()).forEach(i -> {
-        	final XYChart.Data<Number, Number> datum = data1.get(i);
-        	datum.setXValue((i + position - recorder.getFrameSize()) / recorder.getSampleRate());
-        	datum.setYValue(fundFreq);
-        });
-
-        series1.getData().add(new Entry((position - recorder.getFrameSize()) / recorder.getSampleRate(), app));
+        
+        /* SSHを使って目的の基本周波数を推定する */
+        /* 候補を36から60にする */
+        double[] candidates = new double[25];
+        for(int i=0;i<=24;i++) {
+        	double f = frequencies[i];
+        	double each_value = 0;
+        	int r=1;
+        	while(r<=3) {
+        		double fp = f * r;
+        		int first_num = 0;
+        		for(int j=0;j<49;j++) {
+        			if(frequencies[j] >= fp) {
+        				first_num = j;
+        				break;
+        			}
+        		}
+        		each_value += spec_volume[nodenums[first_num]] / r;
+        		r++;
+        	}
+        	candidates[i] = each_value;
+        }
+        int ans = 0;
+        double ans_val = 0;
+        for(int i=0;i<25;i++) {
+        	if (ans_val <= candidates[i]) {
+        		ans = i;
+        		ans_val = candidates[i];
+        	}
+        }
+        if(volume < 20) {
+        	ans = 0;
+        }
+        final int basicfqs = ans;
+        
         final double posInSec = position / recorder.getSampleRate();
-        xAxis1.setLowerBound(posInSec - frameDuration);
+        
+        IntStream.range(0,size).forEach(i -> {
+        	final XYChart.Data<Number, Number> datum = data1.get(i);
+        	if(i == size - 1) {
+        		datum.setXValue(posInSec);
+        		datum.setYValue(basicfqs);
+        	}else {
+        		final XYChart.Data<Number, Number> datum1 = data1.get(i+1);
+        		datum.setXValue(datum1.getXValue());
+        		datum.setYValue(datum1.getYValue());
+        	}
+        });
+        xAxis1.setLowerBound(posInSec - duration);
         xAxis1.setUpperBound(posInSec);
     }));
     
@@ -289,11 +363,139 @@ public final class Karaoke extends Application {
     /* グラフ描画 */
     final Scene scene2 = new Scene(chart2, 800, 600);
 
+    String[] Lyrics = {
+    		"あたしあなたに会えて本当に嬉しいのに" // 0
+    		,"当たり前のようにそれらすべてが悲しいんだ" // 1
+    		,"今痛いくらい幸せな思い出が" // 2
+    		,"いつか来るお別れを育てて歩く" // 3
+    		,"誰かの居場所を奪い生きるくらいならばもう"
+    		,"あたしは石ころにでもなれたならいいな"
+    		,"だとしたら勘違いも戸惑いもない"
+    		,"そうやってあなたまでも知らないままで"
+    		,"あなたにあたしの思いが全部伝わってほしいのに"
+    		,"誰にも言えない秘密があって嘘をついてしまうのだ"
+    		,"あなたが思えば思うよりいくつもあたしは意気地ないのに"
+    		,"どうして"
+    		,"消えない悲しみも綻びもあなたといれば"
+    		,"それでよかったねと笑えるのがどんなに嬉しいか"
+    		,"目の前の全てがぼやけては溶けてゆくような"
+    		,"奇跡であふれて足りないや"
+    		,"あたしの名前を呼んでくれた"
+    		,"あなたが居場所を失くし彷徨うくらいならばもう"
+    		,"誰かが身代わりになればなんて思うんだ"
+    		, "今細やかで確かな見ないふり"
+    		, "きっと繰り返しながら笑い合うんだ"
+    		,"何度誓っても何度祈っても惨憺たる夢を見る"
+    		,"小さな歪みがいつかあなたを呑んでなくしてしまうような"
+    		,"あなたが思えば思うより大げさにあたしは不甲斐ないのに"
+    		,"どうして"
+    		,"お願い　いつまでもいつまでも超えられない夜を"
+    		,"超えようと手をつなぐこの日々が続きますように"
+    		,"閉じた瞼さえ鮮やかに彩るために"
+    		,"そのために何ができるかな"
+    		,"あなたの名前を呼んでいいかな"
+    		,"生まれてきたその瞬間に私" //30
+    		,"消えてしまいたいって泣き喚いたんだ" //31
+    		,"それからずっと探していたんだ" //32
+    		,"いつか出会えるあなたのことを" //33
+    		,"消えない悲しみも綻びもあなたがいれば" //34
+    		,"それでよかったねと笑えるのがどんなに嬉しいか" //35
+    		,"目の前の全てががぼやけて溶けていくような" //36
+    		,"奇跡で溢れて足りないや" //37
+    		,"私の名前を呼んでくれた" // 38
+       		,"あなたの名前を呼んでいいかな" // 39
+    };
+    
+    Text label1 = new Text("");
+    label1.setFont(Font.font("Arial", 20));
+    label1.setTextAlignment(TextAlignment.CENTER);
+    
     player.addAudioFrameListener((frame, position) -> executor.execute(() -> {
       final double[] wframe = MathArrays.ebeMultiply(frame, window);
       final Complex[] spectrum = Le4MusicUtils.rfft(Arrays.copyOf(wframe, fftSize));
       final double posInSec = position / player.getSampleRate();
-
+      if(posInSec < 0.5 && 0 < posInSec) {
+    	  label1.setText(Lyrics[0]);
+      }
+      else if(posInSec < 6.5 && 6 < posInSec) {
+    	  label1.setText(Lyrics[1]);
+      }else if(posInSec < 12.5 && 12 < posInSec) {
+    	  label1.setText(Lyrics[2]);
+      }else if(posInSec < 17.5 && 17 < posInSec) {
+    	  label1.setText(Lyrics[3]);
+      }else if(posInSec < 25 && 24.5 < posInSec) {
+    	  label1.setText(Lyrics[4]);
+      }else if(posInSec < 31 && 30.5 < posInSec) {
+    	  label1.setText(Lyrics[5]);
+      }else if(posInSec < 37 && 36.5 < posInSec) {
+    	  label1.setText(Lyrics[6]);
+      }else if(posInSec < 42 && 41.5 < posInSec) {
+    	  label1.setText(Lyrics[7]);
+      }else if(posInSec < 49 && 48.5 < posInSec) {
+    	  label1.setText(Lyrics[8]);
+      }else if(posInSec < 55 && 54.5 < posInSec) {
+    	  label1.setText(Lyrics[9]);
+      }else if(posInSec < 61.5 && 60 < posInSec) {
+    	  label1.setText(Lyrics[10]);
+      }else if(posInSec < 67 && 66.5 < posInSec) {
+    	  label1.setText(Lyrics[11]);
+      }else if(posInSec < 75 && 74.5 < posInSec) {
+    	  label1.setText(Lyrics[12]);
+      }else if(posInSec < 82 && 81.5 < posInSec) {
+    	  label1.setText(Lyrics[13]);
+      }else if(posInSec < 87 && 86.5 < posInSec) {
+    	  label1.setText(Lyrics[14]);
+      }else if(posInSec < 93 && 92.5 < posInSec) {
+    	  label1.setText(Lyrics[15]);
+      }else if(posInSec < 98.5 && 98 < posInSec) {
+    	  label1.setText(Lyrics[16]);
+      }else if(posInSec < 108 && 107.5 < posInSec) {
+    	  label1.setText(Lyrics[17]);
+      }else if(posInSec < 115 && 114.5 < posInSec) {
+    	  label1.setText(Lyrics[18]);
+      }else if(posInSec < 121 && 120.5 < posInSec) {
+    	  label1.setText(Lyrics[19]);
+      }else if(posInSec < 126 && 125.5 < posInSec) {
+    	  label1.setText(Lyrics[20]);
+      }else if(posInSec < 132 && 131.5 < posInSec) {
+    	  label1.setText(Lyrics[21]);
+      }else if(posInSec < 140 && 139.5 < posInSec) {
+    	  label1.setText(Lyrics[22]);
+      }else if(posInSec < 146 && 145.5 < posInSec) {
+    	  label1.setText(Lyrics[23]);
+      }else if(posInSec < 152 && 151.5 < posInSec) {
+    	  label1.setText(Lyrics[24]);
+      }else if(posInSec < 158 && 157.5 < posInSec) {
+    	  label1.setText(Lyrics[25]);
+      }else if(posInSec < 165 && 164.5 < posInSec) {
+    	  label1.setText(Lyrics[26]);
+      }else if(posInSec < 171 && 170.5 < posInSec) {
+    	  label1.setText(Lyrics[27]);
+      }else if(posInSec < 176 && 175.5 < posInSec) {
+    	  label1.setText(Lyrics[28]);
+      }else if(posInSec < 182.5 && 182 < posInSec) {
+    	  label1.setText(Lyrics[29]);
+      }else if(posInSec < 214 && 213.5 < posInSec) {
+    	  label1.setText(Lyrics[30]);
+      }else if(posInSec < 220 && 219.5 < posInSec) {
+    	  label1.setText(Lyrics[31]);
+      }else if(posInSec < 225 && 224.5 < posInSec) {
+    	  label1.setText(Lyrics[32]);
+      }else if(posInSec < 230 && 229.5 < posInSec) {
+    	  label1.setText(Lyrics[33]);
+      }else if(posInSec < 242 && 241.5 < posInSec) {
+    	  label1.setText(Lyrics[34]);
+      }else if(posInSec < 250 && 249.5 < posInSec) {
+    	  label1.setText(Lyrics[35]);
+      }else if(posInSec < 262 && 261.5 < posInSec) {
+    	  label1.setText(Lyrics[36]);
+      }else if(posInSec < 268 && 267.5 < posInSec) {
+    	  label1.setText(Lyrics[37]);
+      }else if(posInSec < 274 && 274.5 < posInSec) {
+    	  label1.setText(Lyrics[38]);
+      }else if(posInSec < 281 && 280.5 < posInSec) {
+    	  label1.setText(Lyrics[39]);
+      }
       /* スペクトログラム描画 */
       chart2.addSpectrum(spectrum);
 
@@ -308,6 +510,8 @@ public final class Karaoke extends Application {
     BorderPane borderPane = new BorderPane();
     borderPane.setCenter(chart1);
     borderPane.setTop(chart2);
+    borderPane.setBottom(label1);
+    BorderPane.setAlignment(label1, Pos.CENTER);
     primaryStage.setTitle(getClass().getName());
     /* ウインドウを閉じたときに他スレッドも停止させる */
     primaryStage.setScene(new Scene(borderPane));
