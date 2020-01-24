@@ -166,10 +166,10 @@ public final class Karaoke extends Application {
     );
     /* 周波数軸（縦軸） */
     final NumberAxis yAxis1 = new NumberAxis(
-      /* axisLabel  = */ "Amplitude",
-      /* lowerBound = */ 0.0,
-      /* upperBound = */ +50.0,
-      /* tickUnit   = */ 10
+      /* axisLabel  = */ "Node Number",
+      /* lowerBound = */ 36.0,
+      /* upperBound = */ +60.0,
+      /* tickUnit   = */ 2
     );
 
     /* 窓関数とFFTのサンプル数 */
@@ -225,7 +225,7 @@ public final class Karaoke extends Application {
     
     /* チャートを作成 */
     final LineChartWithMarker<Number, Number> chart1 = new LineChartWithMarker<>(xAxis1, yAxis1);
-    chart1.setTitle("Waveform");
+    chart1.setTitle("Pitch");
     chart1.setLegendVisible(false);
     /* データの追加・削除時にアニメーション（フェードイン・アウトなど）しない */
     chart1.setAnimated(false);
@@ -296,7 +296,8 @@ public final class Karaoke extends Application {
         		ans_val = candidates[i];
         	}
         }
-        if(volume < 20) {
+        ans += 36;
+        if(volume < 10) {
         	ans = 0;
         }
         final int basicfqs = ans;
@@ -495,6 +496,9 @@ public final class Karaoke extends Application {
     	  label1.setText(Lyrics[38]);
       }else if(posInSec < 281 && 280.5 < posInSec) {
     	  label1.setText(Lyrics[39]);
+      }
+      else if(posInSec < 291 && 290.5 < posInSec) {
+    	  label1.setText("");
       }
       /* スペクトログラム描画 */
       chart2.addSpectrum(spectrum);
